@@ -1,31 +1,56 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by geopras on 16.10.16.
  */
 public class Individual {
 
-    private Genome genome;
+    private List<Gene> genome;
 
-    public Genome getGenome() {
-        return genome;
+    public List<Gene> getGenome() {
+        return this.genome;
     }
 
-    public void setGenome(Genome genome) {
+    public void setGenome(List<Gene> genome) {
         this.genome = genome;
     }
 
-    public Individual(Genome genome) {
+    /**
+     * Create new individual object with given list of genes
+     * @param genome {List<Gene>} list of genes
+     */
+    public Individual(List<Gene> genome) {
         this.genome = genome;
     }
 
     public Individual() {
-        this.genome = new Genome();
+        this.genome = new ArrayList<>();
     }
 
+    /**
+     * Creates a random individual object with given count of genes and valuation
+     * for creating random allele
+     * @param countGenes
+     * @param minAllele
+     * @param maxAllele
+     * @return {Individual} individual object
+     * @throws Exception if minAllele >= maxAllele
+     */
     public static Individual createRandom(int countGenes, int minAllele, int
-            maxAllele) throws
-            Exception {
-        return new Individual(Genome.createRandom(countGenes, minAllele,
-                maxAllele));
+            maxAllele) throws Exception {
+
+        List<Gene> genome = new ArrayList<>();
+
+        for (int i = 0; i < countGenes; i++) {
+            try {
+                genome.add(Gene.createRandom(minAllele, maxAllele));
+            } catch (Exception ex) {
+                throw new Exception(ex);
+            }
+        }
+
+        return new Individual(genome);
     }
 
 }
