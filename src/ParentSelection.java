@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by geopras on 16.10.16.
@@ -25,9 +26,36 @@ public class ParentSelection {
      * @param population Population of parent and child individuals
      * @return List of arrays of individuals as parent couples
      */
-    public List<Individual[]> start(Population population) {
-        List<Individual[]> selectedPopulation = new ArrayList<>();
+    public List<List<Individual>> start(Population population) {
+        return randomSelection(population);
+    }
 
-        return selectedPopulation;
+    private List<List<Individual>> randomSelection(Population population) {
+
+        List<List<Individual>> selectedParents = new ArrayList<>();
+        //All indiviudals in one list
+        List<Individual> allIndividuals = population.getIndividuals();
+
+        int counter = 0;
+
+        while(counter < countSelectedIndividuals) {
+
+            Individual parent1 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
+            Individual parent2 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
+
+            if (SRandom.getRandomProbability() < this.recombinationProbability) {
+                List<Individual> parents= new ArrayList<>();
+                parents.add(parent1);
+                parents.add(parent2);
+                selectedParents.add(parents);
+                ++counter;
+            }
+        }
+
+        return selectedParents;
+    }
+
+    private List<Individual[]> tournamentSelection(Population population) {
+        return new ArrayList<>();
     }
 }

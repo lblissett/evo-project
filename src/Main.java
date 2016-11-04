@@ -34,10 +34,10 @@ public class Main {
             population.setChildren(recombination.createChildren(population.getParentCouples()));
 
             // 3) environment selection:
-            population.setIndividuals(environmentSelection.start(population));
+            //population.setIndividuals(environmentSelection.start(population));
 
             // 4) mutation of survived individuals:
-            population.setIndividuals(mutation.start(population.getIndividuals()));
+            //population.setIndividuals(mutation.start(population.getIndividuals()));
 
             currentCycle++;
         }
@@ -46,6 +46,10 @@ public class Main {
         System.out.println();
 
         System.out.println("Result of Fitnessfunction " + FitnessFunction.calculateFitnessValue_1(1.0, 1.0, 1.0, 1.0));
+
+        System.out.println("Test probability " + SRandom.getRandomProbability());
+
+
 
     }
 
