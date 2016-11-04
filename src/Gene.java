@@ -40,15 +40,20 @@ public class Gene {
             Exception{
 
         if (minAllele >= maxAllele) {
-            throw new Exception("Der Maximalwert muss groesser als der " +
+            throw new Exception("Fehler in Gene.createRandom(): Der " +
+                    "Maximalwert muss groesser als der " +
                     "Minimalwert des Wertebereichs für das Allel sein!");
         }
-        Random random = new Random();
-        int precision = 1000000000;
-        int minRandom = minAllele * precision;
-        int maxRandom = maxAllele * precision;
-        Double randomAllele = ((double) random.nextInt(maxRandom - minRandom +
-                1) + minRandom) / precision;
-        return new Gene(randomAllele);
+        try {
+            Random random = new Random();
+            int precision = 1000000000;
+            int minRandom = minAllele * precision;
+            int maxRandom = maxAllele * precision;
+            int bound = Math.abs(maxRandom - minRandom) + 1;
+            Double randomAllele = ((double) random.nextInt(bound) + minRandom) / precision;
+            return new Gene(randomAllele);
+        } catch (Exception ex) {
+            throw new Exception("Fehler in Gene.createRandom(): " + ex);
+        }
     }
 }

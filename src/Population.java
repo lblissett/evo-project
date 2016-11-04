@@ -56,8 +56,12 @@ public class Population {
         List<Individual> individuals = new ArrayList<>();
 
         for (int i=0; i < countIndividuals; i++) {
-            individuals.add(Individual.createRandom(countGenes, minAllele,
-                    maxAllele));
+            try {
+                individuals.add(Individual.createRandom(countGenes, minAllele,
+                        maxAllele));
+            } catch (Exception ex) {
+                throw new Exception(ex);
+            }
         }
         return new Population(individuals);
     }

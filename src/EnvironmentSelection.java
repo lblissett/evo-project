@@ -6,17 +6,14 @@ import java.util.List;
  */
 public class EnvironmentSelection {
 
-    private FitnessFunction fitnessFunction;
     private int countSelectedIndividuals;
 
     /**
      * Returns a new object for selecting individuals from a given population
      *
-     * @param fitnessFunction          FitnessFunction object for calculation the fitness value of each individual
      * @param countSelectedIndividuals Count of individuals to select
      */
-    public EnvironmentSelection(FitnessFunction fitnessFunction, int countSelectedIndividuals) {
-        this.fitnessFunction = fitnessFunction;
+    public EnvironmentSelection(int countSelectedIndividuals) {
         this.countSelectedIndividuals = countSelectedIndividuals;
     }
 

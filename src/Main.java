@@ -11,19 +11,17 @@ public class Main {
         int minAllele = -1000;  // min value for creating a gene allele
         int maxAllele = 1000;  // max value for creating a gene allele
         int countParentCouples = 10;  // count of parent couples who create a new child
-        Double recombinationProbability = 0.7; // probability if two parents create a new child
+        Double recombinationProbability = 0.7; // probability if two parents
+        // create a new child (between 0-1)
         Double mutationProbability = 0.01; // probability if a gene of an individual mutates
         int countSelectedIndividuals = countParentCouples;  // count of selected population individuals
 
         // Workflow objects for evolution process:
         Population population = createPopulationRandom(countIndividuals, countGenes, minAllele, maxAllele);
-        FitnessFunction fitnessFunction = new FitnessFunction();
-        ParentSelection parentSelection = new ParentSelection
-                (fitnessFunction, countSelectedIndividuals, recombinationProbability);
+        ParentSelection parentSelection = new ParentSelection(countSelectedIndividuals, recombinationProbability);
         Recombination recombination = new Recombination();
-        EnvironmentSelection environmentSelection = new EnvironmentSelection(fitnessFunction, countSelectedIndividuals);
+        EnvironmentSelection environmentSelection = new EnvironmentSelection(countSelectedIndividuals);
         Mutation mutation = new Mutation(mutationProbability);
-
 
         // Begin evolution cycles:
         int currentCycle = 0;
