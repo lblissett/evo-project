@@ -38,20 +38,29 @@ public class Population {
         this.children = new ArrayList<>();
     }
 
+    public Population(List<Individual> individuals) {
+        this.individuals = individuals;
+        this.parentCouples = new ArrayList<>();
+        this.children = new ArrayList<>();
+    }
+
     public Population() {
         this.individuals = new ArrayList<>();
         this.parentCouples = new ArrayList<>();
         this.children = new ArrayList<>();
     }
 
-    /**
-     * Creates a new list for parent generation with random genes
-     * @param countIndividuals count of parent individuals in first generation
-     * @param countGenes count of genes of one individual
-     * @param minGeneValue minimum of allele valuation for creating one gene
-     * @param maxGeneValue maximum of allele valuation for creating one gene
-     */
-    public void createIndividuals(int countIndividuals, int countGenes, Double minGeneValue, Double maxGeneValue) {
+    public static Population createPopulation(int countIndividuals, int
+            countGenes, int minAllele, int maxAllele) throws Exception {
 
+        List<Individual> individuals = new ArrayList<>();
+
+        for (int i=0; i < countIndividuals; i++) {
+            individuals.add(Individual.createRandom(countGenes, minAllele,
+                    maxAllele));
+        }
+        return new Population(individuals);
     }
+
+
 }

@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * Created by geopras on 14.10.16.
  */
@@ -8,22 +6,24 @@ public class Main {
 
         // Initialization parameter:
         int countEvolutionCycles = 1000;  // count of evolution cycles
-        int countParentCouples = 10;  // count of parent couples who create a new child
+        int countIndividuals = 10;
         int countGenes = 4;  // genes count of one individual
-        Double minGeneValue = -1000.0;  // min value for creating an allele of a gene
-        Double maxGeneValue = 1000.0;  // max value for creating an allele of a gene
+        int minAllele = -1000;  // min value for creating a gene allele
+        int maxAllele = 1000;  // max value for creating a gene allele
+        int countParentCouples = 10;  // count of parent couples who create a new child
         Double recombinationProbability = 0.7; // probability if two parents create a new child
         Double mutationProbability = 0.01; // probability if a gene of an individual mutates
         int countSelectedIndividuals = countParentCouples;  // count of selected population individuals
 
         // Workflow objects for evolution process:
-        Population population = new Population();
-        population.createIndividuals(countParentCouples, countGenes, minGeneValue, maxGeneValue);  // create new parent generation
+        Population population = createPopulationRandom(countIndividuals, countGenes, minAllele, maxAllele);
         FitnessFunction fitnessFunction = new FitnessFunction();
-        Recombination recombination = new Recombination(recombinationProbability);
+        ParentSelection parentSelection = new ParentSelection
+                (fitnessFunction, countSelectedIndividuals, recombinationProbability);
+        Recombination recombination = new Recombination();
         EnvironmentSelection environmentSelection = new EnvironmentSelection(fitnessFunction, countSelectedIndividuals);
         Mutation mutation = new Mutation(mutationProbability);
-        ParentSelection parentSelection = new ParentSelection(fitnessFunction, countSelectedIndividuals);
+
 
         // Begin evolution cycles:
         int currentCycle = 0;
@@ -48,7 +48,22 @@ public class Main {
         System.out.println();
     }
 
-    public static Individual FindFittestIndividual(List<Individual> individuals) {
-        return new Individual();
+    private static Population createPopulationRandom(int countIndividuals,
+                                                     int countGenes, int
+                                                             minAllele,
+                                                     int maxAllele) {
+        Population population = new Population();
+        try {
+            population = Population.createPopulation(countIndividuals,
+                    countGenes,
+                    minAllele, maxAllele);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return population;
     }
+
+//    private static Population createPopulationFix() {
+//
+//    }
 }

@@ -8,15 +8,18 @@ public class ParentSelection {
 
     private FitnessFunction fitnessFunction;
     private int countSelectedIndividuals;
+    private Double recombinationProbability;
 
     /**
      * Returns a new object for selecting individuals from a given population
      * @param fitnessFunction FitnessFunction object for calculation the fitness value of each individual
      * @param countSelectedIndividuals Count of individuals to select
      */
-    public ParentSelection(FitnessFunction fitnessFunction, int countSelectedIndividuals) {
+    public ParentSelection(FitnessFunction fitnessFunction, int
+            countSelectedIndividuals, Double recombinationProbability) {
         this.fitnessFunction = fitnessFunction;
         this.countSelectedIndividuals = countSelectedIndividuals;
+        this.recombinationProbability = recombinationProbability;
     }
 
     /**

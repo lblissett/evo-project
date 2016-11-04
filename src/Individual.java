@@ -3,6 +3,29 @@
  */
 public class Individual {
 
-    private Double[] genome;
+    private Genome genome;
+
+    public Genome getGenome() {
+        return genome;
+    }
+
+    public void setGenome(Genome genome) {
+        this.genome = genome;
+    }
+
+    public Individual(Genome genome) {
+        this.genome = genome;
+    }
+
+    public Individual() {
+        this.genome = new Genome();
+    }
+
+    public static Individual createRandom(int countGenes, int minAllele, int
+            maxAllele) throws
+            Exception {
+        return new Individual(Genome.createRandom(countGenes, minAllele,
+                maxAllele));
+    }
 
 }

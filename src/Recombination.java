@@ -6,14 +6,11 @@ import java.util.List;
  */
 public class Recombination {
 
-    private Double probability;
-
     /**
      * Creates a new recombination object for building a new child generation from parent generation
-     * @param probability if two parents recombine with each other or not (between 0 and 1)
      */
-    public Recombination(Double probability) {
-        this.probability = probability;
+    public Recombination() {
+
     }
 
     /**
