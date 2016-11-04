@@ -1,3 +1,5 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
 public class Population {
 
     private List<Individual> individuals;
-    private List<Individual[]> parentCouples;
+    private List<List<Individual>> parentCouples;
     private List<Individual> children;
 
     public List<Individual> getIndividuals() {
@@ -18,11 +20,11 @@ public class Population {
         this.individuals = individuals;
     }
 
-    public List<Individual[]> getParentCouples() {
+    public List<List<Individual>> getParentCouples() {
         return this.parentCouples;
     }
 
-    public void setParentCouples(List<Individual[]> couples) {
+    public void setParentCouples(List<List<Individual>> couples) {
         this.parentCouples = couples;
     }
 

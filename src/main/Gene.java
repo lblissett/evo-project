@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Random;
 
 /**
@@ -33,14 +35,14 @@ public class Gene {
      * Generate a gene object with random allele
      * @param minAllele {int} minimum of valuation for random allele
      * @param maxAllele {int} maximum of valuation for random allele
-     * @return {Gene} new gene object
+     * @return {main.Gene} new gene object
      * @throws Exception
      */
     public static Gene createRandom(int minAllele, int maxAllele) throws
             Exception{
 
         if (minAllele >= maxAllele) {
-            throw new Exception("Fehler in Gene.createRandom(): Der " +
+            throw new Exception("Fehler in main.Gene.createRandom(): Der " +
                     "Maximalwert muss groesser als der " +
                     "Minimalwert des Wertebereichs für das Allel sein!");
         }
@@ -53,7 +55,7 @@ public class Gene {
             Double randomAllele = ((double) random.nextInt(bound) + minRandom) / precision;
             return new Gene(randomAllele);
         } catch (Exception ex) {
-            throw new Exception("Fehler in Gene.createRandom(): " + ex);
+            throw new Exception("Fehler in main.Gene.createRandom(): " + ex);
         }
     }
 }

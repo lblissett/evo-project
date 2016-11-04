@@ -1,3 +1,5 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class Individual {
 
     /**
      * Create new individual object with given list of genes
-     * @param genome {List<Gene>} list of genes
+     * @param genome {List<main.Gene>} list of genes
      */
     public Individual(List<Gene> genome) {
         this.genome = genome;
@@ -34,7 +36,7 @@ public class Individual {
      * @param countGenes
      * @param minAllele
      * @param maxAllele
-     * @return {Individual} individual object
+     * @return {main.Individual} individual object
      * @throws Exception if minAllele >= maxAllele
      */
     public static Individual createRandom(int countGenes, int minAllele, int
