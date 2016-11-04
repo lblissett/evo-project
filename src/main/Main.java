@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Created by geopras on 14.10.16.
  */
@@ -30,7 +32,7 @@ public class Main {
             population.setParentCouples(parentSelection.start(population));
             population.resetChildren();  // delete list of child individuals
 
-            // 2) Recombination of parents to get new child generation:
+            // 2) main.Recombination of parents to get new child generation:
             population.setChildren(recombination.createChildren(population.getParentCouples()));
 
             // 3) environment selection:
@@ -66,7 +68,7 @@ public class Main {
 
 
 
-//    private static Population createPopulationFix() {
+//    private static main.Population createPopulationFix() {
 //
 //    }
 }

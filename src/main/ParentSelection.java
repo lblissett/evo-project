@@ -1,3 +1,5 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +24,11 @@ public class ParentSelection {
 
     /**
      * Selects population couples as new parents
-     * @param population Population of parent and child individuals
+     * @param population main.Population of parent and child individuals
      * @return List of arrays of individuals as parent couples
      */
-    public List<Individual[]> start(Population population) {
-        List<Individual[]> selectedPopulation = new ArrayList<>();
+    public List<List<Individual>> start(Population population) {
+        List<List<Individual>> selectedPopulation = new ArrayList<>();
 
         return selectedPopulation;
     }
