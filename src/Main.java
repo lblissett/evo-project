@@ -44,6 +44,9 @@ public class Main {
 
         // Find fittest individual:
         System.out.println();
+
+        System.out.println("Result of Fitnessfunction " + FitnessFunction.calculateFitnessValue_1(1.0, 1.0, 1.0, 1.0));
+
     }
 
     private static Population createPopulationRandom(int countIndividuals,
@@ -60,6 +63,8 @@ public class Main {
         }
         return population;
     }
+
+
 
 //    private static Population createPopulationFix() {
 //
