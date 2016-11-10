@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
+
 /**
  * Created by geopras on 14.10.16.
  */
@@ -50,7 +53,6 @@ public class Main {
         System.out.println("Result of Fitnessfunction " + FitnessFunction.calculateFitnessValue_1(1.0, 1.0, 1.0, 1.0));
 
         System.out.println("Test probability " + SRandom.getRandomProbability());
-
 
 
     }

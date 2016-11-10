@@ -33,8 +33,8 @@ public class ParentSelection {
 
     private List<List<Individual>> randomSelection(Population population) {
 
-        List<List<Individual>> selectedParents = new ArrayList<>();
-        //All indiviudals in one list
+        List<List<Individual>> parentCouples = new ArrayList<>();
+        //All individuals in one list
         List<Individual> allIndividuals = population.getIndividuals();
 
         int counter = 0;
@@ -48,12 +48,12 @@ public class ParentSelection {
                 List<Individual> parents= new ArrayList<>();
                 parents.add(parent1);
                 parents.add(parent2);
-                selectedParents.add(parents);
+                parentCouples.add(parents);
                 ++counter;
             }
         }
 
-        return selectedParents;
+        return parentCouples;
     }
 
     private List<Individual[]> tournamentSelection(Population population) {
