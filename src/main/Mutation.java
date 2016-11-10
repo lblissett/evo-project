@@ -29,7 +29,7 @@ public class Mutation {
         return individuals;
     }
 
-    public List<Individual> mutateReal(List<Individual> individuals, double mutationProbability) {
+    public List<Individual> mutateReal(List<Individual> individuals, double mutationProbability, int w) {
 
 
         for(int i = 0; i < individuals.size(); i++) {
@@ -39,14 +39,12 @@ public class Mutation {
 
                 int randomGene = SRandom.getRandomIndex(individuals.get(i).getGenome().size());
 
-                individuals.get(i).getGenome().set(randomGene, individuals.get(i).getGenome().get(randomGene) + 1.0));
+                individuals.get(i).getGenome().set(randomGene, individuals.get(i).getGenome().get(randomGene) + w);
 
             }
 
         }
-
-
-
+        
         return individuals;
     }
 }
