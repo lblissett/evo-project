@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by geopras on 16.10.16.
+ * Klasse zur Definierung einer Population abhängig von der Kodierungsart
  */
 public class Population {
 
@@ -52,7 +52,7 @@ public class Population {
         this.children = new ArrayList<>();
     }
 
-    public static Population createPopulation(int countIndividuals, int
+    public static Population createRandom(int countIndividuals, int
             countGenes, int minAllele, int maxAllele) throws Exception {
 
         List<Individual> individuals = new ArrayList<>();

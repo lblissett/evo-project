@@ -19,7 +19,13 @@ public class Main {
         int countSelectedIndividuals = countParentCouples;  // count of selected population individuals
 
         // Workflow objects for evolution process:
-        Population population = createPopulationRandom(countIndividuals, countGenes, minAllele, maxAllele);
+        Population population = null;
+        try {
+            population = Population.createRandom(countIndividuals,
+                    countGenes, minAllele, maxAllele);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ParentSelection parentSelection = new ParentSelection(countSelectedIndividuals, recombinationProbability);
         Recombination recombination = new Recombination();
         EnvironmentSelection environmentSelection = new EnvironmentSelection(countSelectedIndividuals);
@@ -51,28 +57,5 @@ public class Main {
 
         System.out.println("Test probability " + SRandom.getRandomProbability());
 
-
-
     }
-
-    private static Population createPopulationRandom(int countIndividuals,
-                                                     int countGenes, int
-                                                             minAllele,
-                                                     int maxAllele) {
-        Population population = new Population();
-        try {
-            population = Population.createPopulation(countIndividuals,
-                    countGenes,
-                    minAllele, maxAllele);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return population;
-    }
-
-
-
-//    private static main.Population createPopulationFix() {
-//
-//    }
 }

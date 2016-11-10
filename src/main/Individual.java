@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by geopras on 16.10.16.
+ * Klasse zur Definierung eines Individuums abhängig von der Kodierungsart
  */
 public class Individual {
 
-    private List<Gene> genome;
+    private List<Double> genome;
 
-    public List<Gene> getGenome() {
+    public List<Double> getGenome() {
         return this.genome;
     }
 
-    public void setGenome(List<Gene> genome) {
+    public void setGenome(List<Double> genome) {
         this.genome = genome;
     }
 
@@ -22,7 +22,7 @@ public class Individual {
      * Create new individual object with given list of genes
      * @param genome {List<main.Gene>} list of genes
      */
-    public Individual(List<Gene> genome) {
+    public Individual(List<Double> genome) {
         this.genome = genome;
     }
 
@@ -42,11 +42,11 @@ public class Individual {
     public static Individual createRandom(int countGenes, int minAllele, int
             maxAllele) throws Exception {
 
-        List<Gene> genome = new ArrayList<>();
+        List<Double> genome = new ArrayList<>();
 
         for (int i = 0; i < countGenes; i++) {
             try {
-                genome.add(Gene.createRandom(minAllele, maxAllele));
+                genome.add(SRandom.createRandomDouble(minAllele, maxAllele));
             } catch (Exception ex) {
                 throw new Exception(ex);
             }
