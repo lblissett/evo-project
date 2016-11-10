@@ -27,4 +27,25 @@ public class Mutation {
 
         return individuals;
     }
+
+    public List<Individual> mutateReal(List<Individual> individuals, double mutationProbability) {
+
+
+        for(int i = 0; i < individuals.size(); i++) {
+
+
+            if (SRandom.getRandomProbability() < mutationProbability)  {
+
+                int randomGene = SRandom.getRandomIndex(individuals.get(i).getGenome().size());
+
+                individuals.get(i).getGenome().set(randomGene, individuals.get(i).getGenome().get(randomGene) + 1.0));
+
+            }
+
+        }
+
+
+
+        return individuals;
+    }
 }
