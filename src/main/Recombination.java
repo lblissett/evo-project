@@ -32,15 +32,14 @@ public class Recombination {
             List<Individual> couple = parentCouples.get(i);
             Individual parentA = couple.get(0);
             Individual parentB = couple.get(1);
-            List<Gene> childGenome = new ArrayList<>();
+            List<Double> childGenome = new ArrayList<>();
 
             for (int j = 0; j < parentA.getGenome().size(); j++) {
-                Gene geneA = parentA.getGenome().get(j);
-                Gene geneB = parentB.getGenome().get(j);
+                Double alleleA = parentA.getGenome().get(j);
+                Double alleleB = parentB.getGenome().get(j);
                 // Der Mittelwert zwischen den beiden zugehoerigen
                 // Eltern-Allelen bildet das neue Kind-Allel und damit Kind-Gen:
-                Gene childGene = new Gene((geneA.getAllele() + geneB
-                        .getAllele()) / 2);
+                Double childGene = new Double((alleleA + alleleB) / 2);
                 childGenome.add(childGene);
             }
             children.add(new Individual(childGenome));
