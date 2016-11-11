@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by geopras on 11.11.16.
@@ -84,5 +85,46 @@ public class SFileManager {
         }
 
         return new Population(individuals);
+    }
+
+    public static void saveResults(Map<String,String> results, String
+            savePath) {
+
+        Path path = new File(savePath).toPath();
+
+        File file = new File(path.toString());
+        if (!Files.exists(path.getParent())) {
+            try {
+                Files.createDirectory(path.getParent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!file.exists()) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            bw.write("Zyklus,Fitness");
+            bw.newLine();
+            for ( Map.Entry<String,String> e : results.entrySet()) {
+
+                bw.write(e.getKey() + "," + e.getValue());
+                bw.newLine();
+            }
+
+
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

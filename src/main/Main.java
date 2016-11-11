@@ -5,8 +5,7 @@ import main.enums.RecombinationTypeBinary;
 import main.enums.RecombinationTypeReal;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by geopras on 14.10.16.
@@ -21,6 +20,7 @@ public class Main {
         int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
         Double stopCriterion = 0.01;      // Abbruchkriterium
         String populationSavePath = "src/data/population.txt";
+        String resultsSavePath="src/data/result.csv";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
@@ -77,6 +77,9 @@ public class Main {
         List<Double> fittestIndividual = new ArrayList<>();
         Double fitnessValue = 1.0;
 
+        //result list
+        Map<String, String> results = new HashMap<>();
+
         while (currentCycle < countEvolutionCycles && fitnessValue > stopCriterion) {
 
             // 1) Define parents
@@ -100,6 +103,13 @@ public class Main {
                     .calculateGriewank(fittestIndividual);
             countFittest++;
             currentCycle++;
+
+            String currentCycleString = ((Integer)currentCycle).toString();
+            String fitnessValueString = fitnessValue.toString();
+
+            results.put(currentCycleString, fitnessValueString);
+
+
         }
         //endregion
 
@@ -107,6 +117,9 @@ public class Main {
 
         System.out.println("Bestes Individuum: " + fittestIndividual);
         System.out.println("Fitnesswert: " + fitnessValue);
+
+        File resultsFile = new File(resultsSavePath);
+        SFileManager.saveResults(results, resultsSavePath);
         //endregion
     }
 }
