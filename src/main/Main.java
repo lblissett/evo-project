@@ -27,8 +27,8 @@ public class Main {
         int countGenes = 5;               // Anzahl Gene pro Individuum
         int minAllele = -512;             // Minimalwert Wertebereich
         int maxAllele = 511;              // Minimalwert Wertebereich
-        Encoding encoding = Encoding.REAL;
-        int numberPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
+        Encoding encoding = Encoding.BINARY;
+        int countPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
         int lengthMantissa = 8;           // Binärcode Anzahl Nachkommastellen
 
         // 3) Elternselektion:
@@ -42,7 +42,7 @@ public class Main {
         Double recombinationProbability = 0.7; // Wahrsch. Rekombination
 
         // 5) Mutation:
-        Double mutationProbability = 0.5; // Wahrsch. Mutation
+        Double mutationProbability = 0.1; // Wahrsch. Mutation
 
         // 6) Umweltselektion:
         Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
@@ -64,9 +64,9 @@ public class Main {
         ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
         Recombination recombination = new Recombination(encoding,
                 recombinationTypeReal, recombinationTypeBinary,
-                numberPreceedingDigits, lengthMantissa);
+                countPreceedingDigits, lengthMantissa);
         Mutation mutation = new Mutation(mutationProbability, encoding,
-                minAllele, maxAllele);
+                minAllele, maxAllele, countPreceedingDigits, lengthMantissa);
         EnvironmentSelection environmentSelection = new EnvironmentSelection();
         //endregion
 
