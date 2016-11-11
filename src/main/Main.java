@@ -5,8 +5,7 @@ import main.enums.RecombinationTypeBinary;
 import main.enums.RecombinationTypeReal;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by geopras on 14.10.16.
@@ -21,15 +20,15 @@ public class Main {
         int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
         Double stopCriterion = 0.01;      // Abbruchkriterium
         String populationSavePath = "src/data/population.txt";
-        String resultSavePath="src/data/result.csv";
+        String resultsSavePath="src/data/result.csv";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
         int countGenes = 5;               // Anzahl Gene pro Individuum
         int minAllele = -512;             // Minimalwert Wertebereich
         int maxAllele = 511;              // Minimalwert Wertebereich
-        Encoding encoding = Encoding.REAL;
-        int numberPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
+        Encoding encoding = Encoding.BINARY;
+        int countPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
         int lengthMantissa = 8;           // Binärcode Anzahl Nachkommastellen
 
         // 3) Elternselektion:
@@ -43,7 +42,7 @@ public class Main {
         Double recombinationProbability = 0.7; // Wahrsch. Rekombination
 
         // 5) Mutation:
-        Double mutationProbability = 0.001; // Wahrsch. Mutation
+        Double mutationProbability = 0.1; // Wahrsch. Mutation
 
         // 6) Umweltselektion:
         Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
@@ -62,15 +61,12 @@ public class Main {
             population = SFileManager.readPopulation(populationSavePath);
         }
 
-
-
-
         ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
         Recombination recombination = new Recombination(encoding,
                 recombinationTypeReal, recombinationTypeBinary,
-                numberPreceedingDigits, lengthMantissa);
+                countPreceedingDigits, lengthMantissa);
         Mutation mutation = new Mutation(mutationProbability, encoding,
-                minAllele, maxAllele);
+                minAllele, maxAllele, countPreceedingDigits, lengthMantissa);
         EnvironmentSelection environmentSelection = new EnvironmentSelection();
         //endregion
 
@@ -80,6 +76,9 @@ public class Main {
         Integer countFittest = startCountFittest;
         List<Double> fittestIndividual = new ArrayList<>();
         Double fitnessValue = 1.0;
+
+        //result list
+        Map<String, String> results = new HashMap<>();
 
         while (currentCycle < countEvolutionCycles && fitnessValue > stopCriterion) {
 
@@ -104,28 +103,13 @@ public class Main {
                     .calculateGriewank(fittestIndividual);
             countFittest++;
             currentCycle++;
-            System.out.println(currentCycle);
+
+            String currentCycleString = ((Integer)currentCycle).toString();
+            String fitnessValueString = fitnessValue.toString();
+
+            results.put(currentCycleString, fitnessValueString);
 
 
-            ArrayList<String> results = new ArrayList();
-            results.add(fitnessValue.toString());
-
-            File populationFile = new File(populationSavePath);
-            if (!populationFile.exists()) {
-                population = Population.createRandom(startSizePopulation,
-                        countGenes, minAllele, maxAllele);
-                SFileManager.savePopulation(population.getParents(), populationSavePath);
-            } else {
-                population = SFileManager.readPopulation(populationSavePath);
-            }
-
-
-
-            File resultFile = new File(resultSavePath);
-            SFileManager.saveResults(population.getParents(), resultSavePath);
-
-            writefittestIndividual = environmentSelection.start
-                    (population, 1, 0).get(0);
         }
         //endregion
 
@@ -133,6 +117,9 @@ public class Main {
 
         System.out.println("Bestes Individuum: " + fittestIndividual);
         System.out.println("Fitnesswert: " + fitnessValue);
+
+        File resultsFile = new File(resultsSavePath);
+        SFileManager.saveResults(results, resultsSavePath);
         //endregion
     }
 }
