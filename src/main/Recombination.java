@@ -113,7 +113,7 @@ public class Recombination {
                 String alleleB = parentBinaryB.get(i);
 
                 // Bestimme Zufallsindex, bis zu dem rekombiniert werden soll
-                int randomIndex = 4;//SRandom.getRandomIndex(alleleA.length());
+                int randomIndex = SRandom.getRandomIndex(alleleA.length());
 
                 String childAllele = alleleA.substring(0, randomIndex) +
                         alleleB.substring(randomIndex);
@@ -163,8 +163,8 @@ public class Recombination {
                 int randomIndexRight = 0;
                 while (randomIndex1 == randomIndex2) {
 
-                    randomIndex1 = 4;//SRandom.getRandomIndex(alleleA.length());
-                    randomIndex2 = 7;//SRandom.getRandomIndex(alleleA.length());
+                    randomIndex1 = SRandom.getRandomIndex(alleleA.length());
+                    randomIndex2 = SRandom.getRandomIndex(alleleA.length());
 
                     if (randomIndex1 < randomIndex2) {
                         randomIndexLeft = randomIndex1;
