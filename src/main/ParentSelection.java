@@ -8,17 +8,18 @@ import java.util.List;
  */
 public class ParentSelection {
 
-    private int countSelectedIndividuals;
+    private int countSelectedParentCouples;
     private Double recombinationProbability;
 
     /**
      * Returns a new object for selecting individuals from a given population
-     * @param countSelectedIndividuals Count of individuals to select
+     * @param countSelectedParentCouples Count of parentCouples to select
      * @param recombinationProbability {Double} probability of being a
      *                                 parent couple (between 0-1)
      */
-    public ParentSelection(int countSelectedIndividuals, Double recombinationProbability) {
-        this.countSelectedIndividuals = countSelectedIndividuals;
+    public ParentSelection(int countSelectedParentCouples, Double
+            recombinationProbability) {
+        this.countSelectedParentCouples = countSelectedParentCouples;
         this.recombinationProbability = recombinationProbability;
     }
 
@@ -27,25 +28,25 @@ public class ParentSelection {
      * @param population Population of parent and child individuals
      * @return List of arrays of individuals as parent couples
      */
-    public List<List<Individual>> start(Population population) {
+    public List<List<List<Double>>> start(Population population) {
         return randomSelection(population);
     }
 
-    private List<List<Individual>> randomSelection(Population population) {
+    private List<List<List<Double>>> randomSelection(Population population) {
 
-        List<List<Individual>> parentCouples = new ArrayList<>();
+        List<List<List<Double>>> parentCouples = new ArrayList<>();
         //All individuals in one list
-        List<Individual> allIndividuals = population.getIndividuals();
+        List<List<Double>> allIndividuals = population.getParents();
 
         int counter = 0;
 
-        while(counter < countSelectedIndividuals) {
+        while(counter < this.countSelectedParentCouples) {
 
-            Individual parent1 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
-            Individual parent2 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
+            List<Double> parent1 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
+            List<Double> parent2 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
 
             if (SRandom.getRandomProbability() < this.recombinationProbability) {
-                List<Individual> parents= new ArrayList<>();
+                List<List<Double>> parents= new ArrayList<>();
                 parents.add(parent1);
                 parents.add(parent2);
                 parentCouples.add(parents);
@@ -56,7 +57,7 @@ public class ParentSelection {
         return parentCouples;
     }
 
-    private List<Individual[]> tournamentSelection(Population population) {
+    private List<List<List<Double>>> tournamentSelection(Population population) {
         return new ArrayList<>();
     }
 }
