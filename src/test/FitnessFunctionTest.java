@@ -22,6 +22,6 @@ public class FitnessFunctionTest {
 
         List<List<Double>> result = FitnessFunction.calculateGriewankSorted
                 (individuals);
-        System.out.println(result.subList(0,2));
+        //System.out.println(result.subList(0,2));
     }
 }
