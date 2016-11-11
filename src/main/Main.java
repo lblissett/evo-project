@@ -4,6 +4,7 @@ import main.enums.Encoding;
 import main.enums.RecombinationTypeBinary;
 import main.enums.RecombinationTypeReal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Main {
         // 1) allgemein:
         int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
         Double stopCriterion = 0.01;      // Abbruchkriterium
+        String populationSavePath = "src/data/population.txt";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
@@ -48,9 +50,17 @@ public class Main {
         //endregion
 
         //region Initialisierung des Algorithmus
+        Population population;
 
-        Population population = Population.createRandom(startSizePopulation,
-                countGenes, minAllele, maxAllele);
+        File populationFile = new File(populationSavePath);
+        if (!populationFile.exists()) {
+            population = Population.createRandom(startSizePopulation,
+                    countGenes, minAllele, maxAllele);
+            SFileManager.savePopulation(population.getParents(), populationSavePath);
+        } else {
+            population = SFileManager.readPopulation(populationSavePath);
+        }
+
         ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
         Recombination recombination = new Recombination(encoding,
                 recombinationTypeReal, recombinationTypeBinary,
