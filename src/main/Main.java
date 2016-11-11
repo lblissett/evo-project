@@ -21,6 +21,7 @@ public class Main {
         int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
         Double stopCriterion = 0.01;      // Abbruchkriterium
         String populationSavePath = "src/data/population.txt";
+        String resultSavePath="src/data/result.csv";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
@@ -42,7 +43,7 @@ public class Main {
         Double recombinationProbability = 0.7; // Wahrsch. Rekombination
 
         // 5) Mutation:
-        Double mutationProbability = 0.5; // Wahrsch. Mutation
+        Double mutationProbability = 0.001; // Wahrsch. Mutation
 
         // 6) Umweltselektion:
         Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
@@ -60,6 +61,9 @@ public class Main {
         } else {
             population = SFileManager.readPopulation(populationSavePath);
         }
+
+
+
 
         ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
         Recombination recombination = new Recombination(encoding,
@@ -100,6 +104,28 @@ public class Main {
                     .calculateGriewank(fittestIndividual);
             countFittest++;
             currentCycle++;
+            System.out.println(currentCycle);
+
+
+            ArrayList<String> results = new ArrayList();
+            results.add(fitnessValue.toString());
+
+            File populationFile = new File(populationSavePath);
+            if (!populationFile.exists()) {
+                population = Population.createRandom(startSizePopulation,
+                        countGenes, minAllele, maxAllele);
+                SFileManager.savePopulation(population.getParents(), populationSavePath);
+            } else {
+                population = SFileManager.readPopulation(populationSavePath);
+            }
+
+
+
+            File resultFile = new File(resultSavePath);
+            SFileManager.saveResults(population.getParents(), resultSavePath);
+
+            writefittestIndividual = environmentSelection.start
+                    (population, 1, 0).get(0);
         }
         //endregion
 
