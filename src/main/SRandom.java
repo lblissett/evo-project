@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -28,7 +30,7 @@ public class SRandom {
      * @return {Double} random Double value
      * @throws Exception
      */
-    public static Double createRandomDouble(int minValue, int maxValue) throws
+    public static Integer createRandomInt(int minValue, int maxValue) throws
             Exception{
 
         if (minValue >= maxValue) {
@@ -37,16 +39,37 @@ public class SRandom {
                     "Minimalwert des Wertebereichs für das Allel sein!");
         }
         try {
-            Random random = new Random();
-            int precision = 1000000000;
-            int minRandom = minValue * precision;
-            int maxRandom = maxValue * precision;
-            int bound = Math.abs(maxRandom - minRandom) + 1;
-            return ((double) random.nextInt(bound) + minRandom) /
-                    precision;
+            Random rand = new Random();
+            return rand.nextInt(maxValue - minValue + 1) + minValue;
 
         } catch (Exception ex) {
-            throw new Exception("Fehler in main.Gene.createRandom(): " + ex);
+            throw new Exception("Fehler in createRandom(): " + ex);
         }
+    }
+
+    /**
+     * Creates a random list of Integer values with given count of values and
+     * valuation
+     * for creating random allele
+     * @param countValues
+     * @param minValue
+     * @param maxValue
+     * @return {main.Individual} individual object
+     * @throws Exception if minAllele >= maxAllele
+     */
+    public static List<Double> createRandomIntList(int countValues, int
+            minValue, int maxValue) throws Exception {
+
+        List<Double> genome = new ArrayList<>();
+
+        for (int i = 0; i < countValues; i++) {
+            try {
+                genome.add((double)createRandomInt(minValue, maxValue));
+            } catch (Exception ex) {
+                throw new Exception(ex);
+            }
+        }
+
+        return genome;
     }
 }

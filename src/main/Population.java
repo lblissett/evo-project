@@ -8,31 +8,31 @@ import java.util.List;
  */
 public class Population {
 
-    private List<Individual> individuals;
-    private List<List<Individual>> parentCouples;
-    private List<Individual> children;
+    private List<List<Double>> parents;
+    private List<List<List<Double>>> parentCouples;
+    private List<List<Double>> children;
 
-    public List<Individual> getIndividuals() {
-        return this.individuals;
+    public List<List<Double>> getParents() {
+        return this.parents;
     }
 
-    public void setIndividuals(List<Individual> individuals) {
-        this.individuals = individuals;
+    public void setParents(List<List<Double>> parents) {
+        this.parents = parents;
     }
 
-    public List<List<Individual>> getParentCouples() {
+    public List<List<List<Double>>> getParentCouples() {
         return this.parentCouples;
     }
 
-    public void setParentCouples(List<List<Individual>> couples) {
+    public void setParentCouples(List<List<List<Double>>> couples) {
         this.parentCouples = couples;
     }
 
-    public List<Individual> getChildren() {
+    public List<List<Double>> getChildren() {
         return this.children;
     }
 
-    public void setChildren(List<Individual> children) {
+    public void setChildren(List<List<Double>> children) {
         this.children = children;
     }
 
@@ -40,29 +40,29 @@ public class Population {
         this.children = new ArrayList<>();
     }
 
-    public Population(List<Individual> individuals) {
-        this.individuals = individuals;
+    public Population(List<List<Double>> individuals) {
+        this.parents = individuals;
         this.parentCouples = new ArrayList<>();
         this.children = new ArrayList<>();
     }
 
     public Population() {
-        this.individuals = new ArrayList<>();
+        this.parents = new ArrayList<>();
         this.parentCouples = new ArrayList<>();
         this.children = new ArrayList<>();
     }
 
     public static Population createRandom(int countIndividuals, int
-            countGenes, int minAllele, int maxAllele) throws Exception {
+            countGenes, int minAllele, int maxAllele) {
 
-        List<Individual> individuals = new ArrayList<>();
+        List<List<Double>> individuals = new ArrayList<>();
 
         for (int i=0; i < countIndividuals; i++) {
             try {
-                individuals.add(Individual.createRandom(countGenes, minAllele,
+                individuals.add(SRandom.createRandomIntList(countGenes, minAllele,
                         maxAllele));
             } catch (Exception ex) {
-                throw new Exception(ex);
+                System.out.println(ex.getMessage());
             }
         }
         return new Population(individuals);

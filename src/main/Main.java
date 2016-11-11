@@ -1,61 +1,102 @@
 package main;
 
+import main.enums.Encoding;
+import main.enums.RecombinationTypeBinary;
+import main.enums.RecombinationTypeReal;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by geopras on 14.10.16.
  */
 public class Main {
+
     public static void main(String[] args) {
 
-        // Initialization parameter:
-        int countEvolutionCycles = 1000;  // count of evolution cycles
-        int countIndividuals = 10;
-        int countGenes = 4;  // genes count of one individual
-        int minAllele = -1000;  // min value for creating a gene allele
-        int maxAllele = 1000;  // max value for creating a gene allele
-        int countParentCouples = 10;  // count of parent couples who create a new child
-        Double recombinationProbability = 0.7; // probability if two parents
-        // create a new child (between 0-1)
-        Double mutationProbability = 0.01; // probability if a gene of an individual mutates
-        int countSelectedIndividuals = countParentCouples;  // count of selected population individuals
+        //region Initialization parameter
 
-        // Workflow objects for evolution process:
-        Population population = null;
-        try {
-            population = Population.createRandom(countIndividuals,
-                    countGenes, minAllele, maxAllele);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ParentSelection parentSelection = new ParentSelection(countSelectedIndividuals, recombinationProbability);
-        Recombination recombination = new Recombination();
-        EnvironmentSelection environmentSelection = new EnvironmentSelection(countSelectedIndividuals);
-        Mutation mutation = new Mutation(mutationProbability);
+        // 1) allgemein:
+        int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
+        Double stopCriterion = 0.01;      // Abbruchkriterium
 
-        // Begin evolution cycles:
+        // 2) Population:
+        int startSizePopulation = 10;     // Anfangsgröße der Population
+        int countGenes = 5;               // Anzahl Gene pro Individuum
+        int minAllele = -512;             // Minimalwert Wertebereich
+        int maxAllele = 511;              // Minimalwert Wertebereich
+        Encoding encoding = Encoding.REAL;
+        int numberPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
+        int lengthMantissa = 8;           // Binärcode Anzahl Nachkommastellen
+
+        // 3) Elternselektion:
+        int countParentCouples = 10;      // Anzahl Elternpaare
+
+        // 4) Rekombination:
+        RecombinationTypeReal recombinationTypeReal = RecombinationTypeReal
+                .INTERMEDIUM;
+        RecombinationTypeBinary recombinationTypeBinary =
+                RecombinationTypeBinary.ONEPOINT;
+        Double recombinationProbability = 0.7; // Wahrsch. Rekombination
+
+        // 5) Mutation:
+        Double mutationProbability = 0.5; // Wahrsch. Mutation
+
+        // 6) Umweltselektion:
+        Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
+        Integer countRandomIndividuals = 3; // Anzahl zufällige Umweltselektion
+        //endregion
+
+        //region Initialisierung des Algorithmus
+
+        Population population = Population.createRandom(startSizePopulation,
+                countGenes, minAllele, maxAllele);
+        ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
+        Recombination recombination = new Recombination(encoding,
+                recombinationTypeReal, recombinationTypeBinary,
+                numberPreceedingDigits, lengthMantissa);
+        Mutation mutation = new Mutation(mutationProbability, encoding,
+                minAllele, maxAllele);
+        EnvironmentSelection environmentSelection = new EnvironmentSelection();
+        //endregion
+
+        //region Ablauf Evolutionszyklen
+
         int currentCycle = 0;
-        while (currentCycle < countEvolutionCycles) {
+        Integer countFittest = startCountFittest;
+        List<Double> fittestIndividual = new ArrayList<>();
+        Double fitnessValue = 1.0;
+
+        while (currentCycle < countEvolutionCycles && fitnessValue > stopCriterion) {
+
             // 1) Define parents
             population.setParentCouples(parentSelection.start(population));
             population.resetChildren();  // delete list of child individuals
 
             // 2) main.Recombination of parents to get new child generation:
-            population.setChildren(recombination.createChildren(population.getParentCouples()));
+            population.setChildren(recombination.start(population
+                    .getParentCouples()));
 
-            // 3) environment selection:
-            //population.setIndividuals(environmentSelection.start(population));
+            // 3) mutation of survived individuals:
+            population.setParents(mutation.start(population.getParents()));
 
-            // 4) mutation of survived individuals:
-            //population.setIndividuals(mutation.start(population.getIndividuals()));
+            // 4) environment selection:
+            population.setParents(environmentSelection.start(population,
+                    countFittest, countRandomIndividuals));
 
+            fittestIndividual = environmentSelection.start
+                    (population, 1, 0).get(0);
+            fitnessValue = FitnessFunction
+                    .calculateGriewank(fittestIndividual);
+            countFittest++;
             currentCycle++;
         }
+        //endregion
 
-        // Find fittest individual:
-        System.out.println();
+        //region Ausgabe
 
-        System.out.println("Result of Fitnessfunction " + FitnessFunction.calculateFitnessValue_1(1.0, 1.0, 1.0, 1.0));
-
-        System.out.println("Test probability " + SRandom.getRandomProbability());
-
+        System.out.println("Bestes Individuum: " + fittestIndividual);
+        System.out.println("Fitnesswert: " + fitnessValue);
+        //endregion
     }
 }
