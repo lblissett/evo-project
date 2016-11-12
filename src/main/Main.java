@@ -92,6 +92,12 @@ public class Main {
         Double fitnessValueBinary1P = -1.0;
         List<Double> fittestBinary2P = new ArrayList<>();
         Double fitnessValueBinary2P = -1.0;
+        Double bestFitnessValueReal = (double) maxAllele;
+        List<Double> bestIndividualReal = new ArrayList<>();
+        Double bestFitnessValueBinary1P = (double) maxAllele;
+        List<Double> bestIndividualBinary1P = new ArrayList<>();
+        Double bestFitnessValueBinary2P = (double) maxAllele;
+        List<Double> bestIndividualBinary2P = new ArrayList<>();
 
         logger.info("Start Evolutionszyklen");
 
@@ -170,36 +176,64 @@ public class Main {
             logger.info(populations.getBinaryTwoPoint().getParents().toString());
             logger.info("");
 
-            // Ergebnisse speichern:
+            //region Ergebnisse speichern:
             fittestReal = populations.getReal().getParents()
                     .get(0); // erstes Individuum = bestes
             fitnessValueReal = FitnessFunction.calculateGriewank(fittestReal);
+            if (fitnessValueReal < bestFitnessValueReal) {
+                bestFitnessValueReal = fitnessValueReal;
+                bestIndividualReal = fittestReal;
+            }
             fittestBinary1P = populations.getBinaryOnePoint()
                     .getParents().get(0);
             fitnessValueBinary1P = FitnessFunction.calculateGriewank(fittestBinary1P);
+            if (fitnessValueBinary1P < bestFitnessValueBinary1P) {
+                bestFitnessValueBinary1P = fitnessValueBinary1P;
+                bestIndividualBinary1P = fittestBinary1P;
+            }
             fittestBinary2P = populations.getBinaryTwoPoint()
                     .getParents().get(0);
             fitnessValueBinary2P = FitnessFunction.calculateGriewank(fittestBinary2P);
-
-            countFittest++;
-            currentCycle++;
+            if (fitnessValueBinary2P < bestFitnessValueBinary2P) {
+                bestFitnessValueBinary2P = fitnessValueBinary2P;
+                bestIndividualBinary2P = fittestBinary2P;
+            }
 
             results.put(currentCycle.toString(), new ArrayList<>(Arrays.asList(fitnessValueReal
                             .toString(), fitnessValueBinary1P.toString(),
                     fitnessValueBinary2P.toString())));
+            //endregion
+
+            countFittest++;
+            currentCycle++;
         }
         //endregion
 
         //region Ausgabe und Speichern der Ergebnisse
+        System.out.println("");
         System.out.println("Bestes Individuum Reelle Kodierung der " +
                 "letzten Generation:\n" + fittestReal);
         System.out.println("Fitnesswert: " + fitnessValueReal);
+        System.out.println("");
         System.out.println("Bestes Individuum Binäre Kodierung (1P) der " +
                 "letzten Generation:\n" + fittestBinary1P);
         System.out.println("Fitnesswert: " + fitnessValueBinary1P);
+        System.out.println("");
         System.out.println("Bestes Individuum Binäre Kodierung (2P) der " +
                 "letzten Generation:\n" + fittestBinary2P);
         System.out.println("Fitnesswert: " + fitnessValueBinary2P);
+        System.out.println("");
+        System.out.println("Bestes Individuum Reelle Kodierung aller " +
+                "Generationen:\n" + bestIndividualReal);
+        System.out.println("Fitnesswert: " + bestFitnessValueReal);
+        System.out.println("");
+        System.out.println("Bestes Individuum Binäre Kodierung (1P) aller " +
+                "Generationen:\n" + bestIndividualBinary1P);
+        System.out.println("Fitnesswert: " + bestFitnessValueBinary1P);
+        System.out.println("");
+        System.out.println("Bestes Individuum Binäre Kodierung (2P) aller " +
+                "Generationen:\n" + bestIndividualBinary2P);
+        System.out.println("Fitnesswert: " + bestFitnessValueBinary2P);
 
         SFileManager.saveResults(results, resultsSavePathReal);
         //endregion
