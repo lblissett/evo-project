@@ -13,13 +13,11 @@ public class ParentSelection {
 
     /**
      * Returns a new object for selecting individuals from a given population
-     * @param countSelectedParentCouples Count of parentCouples to select
      * @param recombinationProbability {Double} probability of being a
      *                                 parent couple (between 0-1)
      */
-    public ParentSelection(int countSelectedParentCouples, Double
-            recombinationProbability) {
-        this.countSelectedParentCouples = countSelectedParentCouples;
+    public ParentSelection(Double recombinationProbability) {
+
         this.recombinationProbability = recombinationProbability;
     }
 
@@ -29,19 +27,19 @@ public class ParentSelection {
      *                    different encoding
      * @return List of arrays of individuals as parent couples
      */
-    public Populations start(Populations populations) {
+    public Populations start(Populations populations, int countSelectedParentCouples) {
 
-        return randomSelection(populations);
+        return randomSelection(populations, countSelectedParentCouples);
     }
 
-    private Populations randomSelection(Populations populations) {
+    private Populations randomSelection(Populations populations, int countSelectedParentCouples) {
 
         populations.resetChildren();
         populations.resetParentCouples();
 
         int countParents = populations.getReal().getParents().size();
         int counter = 0;
-        while(counter < this.countSelectedParentCouples) {
+        while(counter < countSelectedParentCouples) {
 
             // zufällig Elternteile auswählen:
             int randomIndex1 = SRandom.getRandomIndex(countParents);

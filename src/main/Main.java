@@ -23,31 +23,55 @@ public class Main {
         //region Initialization parameter
 
         // 1) allgemein:
+        logger.info("Initialisierungs-Parameter");
         int countEvolutionCycles = 500;  // maximale Anzahl Evolutionszyklen
+        logger.info("Anzahl der Evolutionsschritte: " + countEvolutionCycles);
         String populationSavePath = "src/data/population.txt";
         String resultsSavePathReal = "src/data/results_" + now + ".csv";
+        logger.info("Zugehoerige result-Datei: " + resultsSavePathReal);
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
+        logger.info("Anfangsgroesse der Population: " + startSizePopulation);
         int countGenes = 100;               // Anzahl Gene pro Individuum
+        logger.info("Anzahl der Gene: " + countGenes);
         int minAllele = -512;             // Minimalwert Wertebereich
+        logger.info("Kleinster Wert eines Gens: " + minAllele);
         int maxAllele = 511;              // Minimalwert Wertebereich
+        logger.info("Groesster Wert eines Gens: " + maxAllele);
         int countPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
+        logger.info("Anzahl Vorkommastellen bei der Binaerkodierung: " +
+                countPreceedingDigits);
         int lengthMantissa = 8;           // Binärcode Anzahl Nachkommastellen
+        logger.info("Mantissenlaenge bei der Binaerkodierung: " +
+                lengthMantissa);
 
         // 3) Elternselektion:
-        int countParentCouples = 10;      // Anzahl Elternpaare
+        int startCountParentCouples = 10;      // Anzahl Elternpaare am Anfang
+        logger.info("Anzahl der Elternpaare am Anfang: " +
+                startCountParentCouples);
 
         // 4) Rekombination:
         Double recombinationProbability = 0.9; // Wahrsch. Rekombination
+        logger.info("Rekombinationswahrscheinlichkeit: " +
+                recombinationProbability);
 
         // 5) Mutation:
         Double mutationProbability = 0.1; // Wahrsch. Mutation
+        logger.info("Mutationswahrscheinlichkeit: " +
+                mutationProbability);
         Double fixMutationValue = 5.0;
+        logger.info("Fixer Mutationswert (bei Reeller Kodierung): " +
+                fixMutationValue);
 
         // 6) Umweltselektion:
-        Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
+        Integer startCountFittest = startCountParentCouples;   // Startanzahl determ.
+        // Umweltselektion
+        logger.info("Anzahl der auszuwaehlenden besten Individuen: " +
+                startCountFittest);
         Integer countRandomIndividuals = 3; // Anzahl zufällige Umweltselektion
+        logger.info("Anzahl der zufaellig auszuwaehlenden Individuen: " +
+                countRandomIndividuals);
         //endregion
 
         //region Initialisierung des Algorithmus
@@ -69,7 +93,7 @@ public class Main {
         logger.info("Startpopulation:");
         logger.info(populations.getReal().toString());
 
-        ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
+        ParentSelection parentSelection = new ParentSelection(recombinationProbability);
         Recombination recombination = new Recombination(countPreceedingDigits, lengthMantissa);
         Mutation mutation = new Mutation(mutationProbability, fixMutationValue,
                 minAllele, maxAllele, countPreceedingDigits, lengthMantissa);
@@ -80,6 +104,7 @@ public class Main {
 
         Integer currentCycle = 0;
         Integer countFittest = startCountFittest;
+        Integer countParentCouples = startCountParentCouples;
 
         //results
         // Datenstruktur: Zyklusnummer (1. Spalte), bester Fitnesswert (2.
@@ -113,7 +138,7 @@ public class Main {
 
             // 1) Define parents
             logger.info("Start Elternselektion");
-            populations = parentSelection.start(populations);
+            populations = parentSelection.start(populations, countParentCouples);
             logger.info("Ausgewaehlte Eltern der Population mit Reeller " +
                     "Kodierung:");
             logger.info(populations.getReal().getParentCouples().toString());
@@ -204,7 +229,9 @@ public class Main {
                     fitnessValueBinary2P.toString())));
             //endregion
 
-            countFittest++;
+            // Vergroeßern der Population
+//            countFittest++;
+//            countParentCouples++;
             currentCycle++;
         }
         //endregion
