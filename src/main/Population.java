@@ -9,35 +9,47 @@ import java.util.List;
 public class Population {
 
     private List<List<Double>> parents;
-    private List<List<List<Double>>> parentCouples;
     private List<List<Double>> children;
+    private List<List<List<Double>>> parentCouples;
 
     public List<List<Double>> getParents() {
-        return this.parents;
+        return parents;
     }
 
     public void setParents(List<List<Double>> parents) {
         this.parents = parents;
     }
 
-    public List<List<List<Double>>> getParentCouples() {
-        return this.parentCouples;
-    }
-
-    public void setParentCouples(List<List<List<Double>>> couples) {
-        this.parentCouples = couples;
-    }
-
     public List<List<Double>> getChildren() {
-        return this.children;
+        return children;
     }
 
     public void setChildren(List<List<Double>> children) {
         this.children = children;
     }
 
+    public List<List<List<Double>>> getParentCouples() {
+        return parentCouples;
+    }
+
+    public void setParentCouples(List<List<List<Double>>> parentCouples) {
+        this.parentCouples = parentCouples;
+    }
+
+    public void resetParents() {
+        this.parents = new ArrayList<>();
+    }
+
     public void resetChildren() {
         this.children = new ArrayList<>();
+    }
+
+    public void resetParentCouples() {
+        this.parentCouples = new ArrayList<>();
+    }
+
+    public void addParentCouple(List<List<Double>> parentCouple) {
+        this.parentCouples.add(parentCouple);
     }
 
     public Population(List<List<Double>> individuals) {

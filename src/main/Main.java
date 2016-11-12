@@ -1,33 +1,37 @@
 package main;
 
-import main.enums.Encoding;
-import main.enums.RecombinationTypeBinary;
-import main.enums.RecombinationTypeReal;
-
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
- * Created by geopras on 14.10.16.
+ * Hauptprogramm Evolutionaerer Algorithmus
  */
 public class Main {
 
     public static void main(String[] args) {
 
+        //Log-Datei zur Aufzeichnung des Algorithmus-Verlaufs:
+        String now = LocalDateTime.now().toString();
+        now = now.replace(":", "").replace(".", "");
+        Logger logger = initializeLogger(now);
+
         //region Initialization parameter
 
         // 1) allgemein:
-        int countEvolutionCycles = 2000;  // maximale Anzahl Evolutionszyklen
-        Double stopCriterion = 0.01;      // Abbruchkriterium
+        int countEvolutionCycles = 500;  // maximale Anzahl Evolutionszyklen
         String populationSavePath = "src/data/population.txt";
-        String resultsSavePath="src/data/result.csv";
+        String resultsSavePathReal = "src/data/results_" + now + ".csv";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
-        int countGenes = 5;               // Anzahl Gene pro Individuum
+        int countGenes = 100;               // Anzahl Gene pro Individuum
         int minAllele = -512;             // Minimalwert Wertebereich
         int maxAllele = 511;              // Minimalwert Wertebereich
-        Encoding encoding = Encoding.BINARY;
         int countPreceedingDigits = 10;  // Binärcode Anzahl Vorkommastellen
         int lengthMantissa = 8;           // Binärcode Anzahl Nachkommastellen
 
@@ -35,14 +39,11 @@ public class Main {
         int countParentCouples = 10;      // Anzahl Elternpaare
 
         // 4) Rekombination:
-        RecombinationTypeReal recombinationTypeReal = RecombinationTypeReal
-                .INTERMEDIUM;
-        RecombinationTypeBinary recombinationTypeBinary =
-                RecombinationTypeBinary.ONEPOINT;
-        Double recombinationProbability = 0.7; // Wahrsch. Rekombination
+        Double recombinationProbability = 0.9; // Wahrsch. Rekombination
 
         // 5) Mutation:
         Double mutationProbability = 0.1; // Wahrsch. Mutation
+        Double fixMutationValue = 5.0;
 
         // 6) Umweltselektion:
         Integer startCountFittest = 10;   // Startanzahl determ. Umweltselektion
@@ -50,76 +51,183 @@ public class Main {
         //endregion
 
         //region Initialisierung des Algorithmus
-        Population population;
+        Populations populations;
+
+        logger.info("Initialisiere Population...");
 
         File populationFile = new File(populationSavePath);
         if (!populationFile.exists()) {
-            population = Population.createRandom(startSizePopulation,
+            populations = Populations.createRandom(startSizePopulation,
                     countGenes, minAllele, maxAllele);
-            SFileManager.savePopulation(population.getParents(), populationSavePath);
+            SFileManager.savePopulation(populations.getReal().getParents(),
+                    populationSavePath);
         } else {
-            population = SFileManager.readPopulation(populationSavePath);
+            populations = new Populations(SFileManager.readPopulation
+                    (populationSavePath));
         }
 
+        logger.info("Startpopulation:");
+        logger.info(populations.getReal().toString());
+
         ParentSelection parentSelection = new ParentSelection(countParentCouples, recombinationProbability);
-        Recombination recombination = new Recombination(encoding,
-                recombinationTypeReal, recombinationTypeBinary,
-                countPreceedingDigits, lengthMantissa);
-        Mutation mutation = new Mutation(mutationProbability, encoding,
+        Recombination recombination = new Recombination(countPreceedingDigits, lengthMantissa);
+        Mutation mutation = new Mutation(mutationProbability, fixMutationValue,
                 minAllele, maxAllele, countPreceedingDigits, lengthMantissa);
         EnvironmentSelection environmentSelection = new EnvironmentSelection();
         //endregion
 
         //region Ablauf Evolutionszyklen
 
-        int currentCycle = 0;
+        Integer currentCycle = 0;
         Integer countFittest = startCountFittest;
-        List<Double> fittestIndividual = new ArrayList<>();
-        Double fitnessValue = 1.0;
 
-        //result list
-        Map<String, String> results = new HashMap<>();
+        //results
+        // Datenstruktur: Zyklusnummer (1. Spalte), bester Fitnesswert (2.
+        // Spalte, bestes Individuum (3.Spalte)
+        Map<String, List<String>> results = new HashMap<>();
 
-        while (currentCycle < countEvolutionCycles && fitnessValue > stopCriterion) {
+        List<Double> fittestReal = new ArrayList<>();
+        Double fitnessValueReal = -1.0;
+        List<Double> fittestBinary1P = new ArrayList<>();
+        Double fitnessValueBinary1P = -1.0;
+        List<Double> fittestBinary2P = new ArrayList<>();
+        Double fitnessValueBinary2P = -1.0;
+
+        logger.info("Start Evolutionszyklen");
+
+        while (currentCycle < countEvolutionCycles) {
+
+            logger.info("");
+            logger.info("###################### Neuer Zyklus " +
+                    "######################");
+            logger.info("Aktuelle Generation: " + currentCycle);
+            logger.info("Anzahl der Individuen: " + populations.getReal()
+                    .getParents().size());
+            logger.info("");
 
             // 1) Define parents
-            population.setParentCouples(parentSelection.start(population));
-            population.resetChildren();  // delete list of child individuals
+            logger.info("Start Elternselektion");
+            populations = parentSelection.start(populations);
+            logger.info("Ausgewaehlte Eltern der Population mit Reeller " +
+                    "Kodierung:");
+            logger.info(populations.getReal().getParentCouples().toString());
+            logger.info("");
+            logger.info("Ausgewaehlte Eltern der Population mit Binärer " +
+                    "Kodierung (1P):");
+            logger.info(populations.getBinaryOnePoint().getParentCouples().toString());
+            logger.info("");
+            logger.info("Ausgewaehlte Eltern der Population mit Binärer " +
+                    "Kodierung (2P):");
+            logger.info(populations.getBinaryTwoPoint().getParentCouples().toString());
+            logger.info("");
 
-            // 2) main.Recombination of parents to get new child generation:
-            population.setChildren(recombination.start(population
-                    .getParentCouples()));
+            // 2) Recombination of parents to get new child generation:
+            logger.info("Start Rekombination");
+            populations = recombination.start(populations);
+            logger.info("Entstandene Kinder der Population mit Reeller " +
+                    "Kodierung:");
+            logger.info(populations.getReal().getChildren().toString());
+            logger.info("");
+            logger.info("Entstandene Kinder der Population mit Binärer " +
+                    "Kodierung (1P):");
+            logger.info(populations.getBinaryOnePoint().getChildren().toString());
+            logger.info("");
+            logger.info("Entstandene Kinder der Population mit Binärer " +
+                    "Kodierung (2P):");
+            logger.info(populations.getBinaryTwoPoint().getChildren().toString());
+            logger.info("");
 
             // 3) mutation of survived individuals:
-            population.setParents(mutation.start(population.getParents()));
+            logger.info("Start Mutation");
+            populations = mutation.start(populations);
+            logger.info("Kinder der Population mit Reeller " +
+                    "Kodierung:");
+            logger.info(populations.getReal().getChildren().toString());
+            logger.info("");
+            logger.info("Kinder der Population mit Binärer " +
+                    "Kodierung (1P):");
+            logger.info(populations.getBinaryOnePoint().getChildren().toString());
+            logger.info("");
+            logger.info("Kinder der Population mit Binärer " +
+                    "Kodierung (2P):");
+            logger.info(populations.getBinaryTwoPoint().getChildren().toString());
+            logger.info("");
 
             // 4) environment selection:
-            population.setParents(environmentSelection.start(population,
-                    countFittest, countRandomIndividuals));
+            logger.info("Start Umweltselektion");
+            populations = environmentSelection.start(populations,
+                    countFittest, countRandomIndividuals);
+            logger.info("Neue Generation mit Reeller " +
+                    "Kodierung:");
+            logger.info(populations.getReal().getParents().toString());
+            logger.info("");
+            logger.info("Neue Generation mit Binärer " +
+                    "Kodierung (1P):");
+            logger.info(populations.getBinaryOnePoint().getParents().toString());
+            logger.info("");
+            logger.info("Neue Generation mit Binärer " +
+                    "Kodierung (2P):");
+            logger.info(populations.getBinaryTwoPoint().getParents().toString());
+            logger.info("");
 
-            fittestIndividual = environmentSelection.start
-                    (population, 1, 0).get(0);
-            fitnessValue = FitnessFunction
-                    .calculateGriewank(fittestIndividual);
+            // Ergebnisse speichern:
+            fittestReal = populations.getReal().getParents()
+                    .get(0); // erstes Individuum = bestes
+            fitnessValueReal = FitnessFunction.calculateGriewank(fittestReal);
+            fittestBinary1P = populations.getBinaryOnePoint()
+                    .getParents().get(0);
+            fitnessValueBinary1P = FitnessFunction.calculateGriewank(fittestBinary1P);
+            fittestBinary2P = populations.getBinaryTwoPoint()
+                    .getParents().get(0);
+            fitnessValueBinary2P = FitnessFunction.calculateGriewank(fittestBinary2P);
+
             countFittest++;
             currentCycle++;
 
-            String currentCycleString = ((Integer)currentCycle).toString();
-            String fitnessValueString = fitnessValue.toString();
-
-            results.put(currentCycleString, fitnessValueString);
-
-
+            results.put(currentCycle.toString(), new ArrayList<>(Arrays.asList(fitnessValueReal
+                            .toString(), fitnessValueBinary1P.toString(),
+                    fitnessValueBinary2P.toString())));
         }
         //endregion
 
-        //region Ausgabe
+        //region Ausgabe und Speichern der Ergebnisse
+        System.out.println("Bestes Individuum Reelle Kodierung der " +
+                "letzten Generation:\n" + fittestReal);
+        System.out.println("Fitnesswert: " + fitnessValueReal);
+        System.out.println("Bestes Individuum Binäre Kodierung (1P) der " +
+                "letzten Generation:\n" + fittestBinary1P);
+        System.out.println("Fitnesswert: " + fitnessValueBinary1P);
+        System.out.println("Bestes Individuum Binäre Kodierung (2P) der " +
+                "letzten Generation:\n" + fittestBinary2P);
+        System.out.println("Fitnesswert: " + fitnessValueBinary2P);
 
-        System.out.println("Bestes Individuum: " + fittestIndividual);
-        System.out.println("Fitnesswert: " + fitnessValue);
-
-        File resultsFile = new File(resultsSavePath);
-        SFileManager.saveResults(results, resultsSavePath);
+        SFileManager.saveResults(results, resultsSavePathReal);
         //endregion
+    }
+
+    public static Logger initializeLogger(String now) {
+
+        Logger logger = Logger.getLogger("MyLog");
+        logger.setUseParentHandlers(false);
+        String logFileName = "src/log/evoLog_" + now + ".txt";
+        try {
+
+            // This block configure the logger with handler and formatter
+            FileHandler fh = new FileHandler(logFileName);
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            // the following statement is used to log any messages
+            logger.info("=============== Log-Datei zum Evolutionaeren " +
+                    "Algorithmus ================");
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return logger;
     }
 }

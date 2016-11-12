@@ -1,7 +1,5 @@
 package main;
 
-import main.enums.Encoding;
-
 import java.util.List;
 
 /**
@@ -10,7 +8,7 @@ import java.util.List;
 public class Mutation {
 
     private Double probability;
-    private Encoding encoding;
+    private Double fixMutationValue;
     private Integer minValue;
     private Integer maxValue;
     private Integer countPreceedingDigits;
@@ -20,11 +18,11 @@ public class Mutation {
      * Creates a mutation object for mutating genes after a certain probability
      * @param probability
      */
-    public Mutation(Double probability, Encoding encoding, Integer minValue,
+    public Mutation(Double probability, Double fixMutationValue, Integer minValue,
                     Integer maxValue, Integer countPreceedingDigits, Integer
                             lengthMantissa) {
         this.probability = probability;
-        this.encoding = encoding;
+        this.fixMutationValue = fixMutationValue;
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.countPreceedingDigits = countPreceedingDigits;
@@ -33,80 +31,74 @@ public class Mutation {
 
     /**
      * Starts mutating genes of individuals after a certain probability
-     * @param individuals
+     * @param populations
      * @return List of individuals which are maybe mutated
      */
-    public List<List<Double>> start(List<List<Double>> individuals) {
+    public Populations start(Populations populations) {
 
-        switch (this.encoding) {
-            case REAL: return mutateReal(individuals);
-            case BINARY: return mutateBinary(individuals);
-        }
-        return mutateReal(individuals);  // Default
+        populations.setReal(this.mutateReal(populations.getReal()));
+        populations.setBinaryOnePoint(this.mutateBinary(populations
+                .getBinaryOnePoint()));
+        populations.setBinaryTwoPoint(this.mutateBinary(populations
+                .getBinaryTwoPoint()));
+        return populations;
     }
 
-    private List<List<Double>> mutateReal(List<List<Double>> individuals) {
+    private Population mutateReal(Population population) {
 
-        for (int i = 0; i < individuals.size(); i++) {
+        List<List<Double>> children = population.getChildren();
 
-            List<Double> currentIndividual = individuals.get(i);
-            int randomGeneIndex = SRandom.getRandomIndex(currentIndividual.size());
+        for (int i = 0; i < children.size(); i++) {
+
+            List<Double> currentChild = children.get(i);
+            int randomGeneIndex = SRandom.getRandomIndex(currentChild.size());
             Double randomMutationProbability = SRandom.getRandomProbability();
-            Double randomMutationValue = 0.0;
-            try {
-                randomMutationValue = (double)SRandom.createRandomInt(this
-                        .minValue, this.maxValue);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return individuals;
-            }
 
             if (randomMutationProbability < this.probability) {
 //                System.out.println("Folgendes Individuum wird mutiert: " +
 //                        currentIndividual);
-                Double mutatedAllele = currentIndividual.get(randomGeneIndex) +
-                        randomMutationValue;
+                Double mutatedAllele = currentChild.get(randomGeneIndex) +
+                        this.fixMutationValue;
                 if (mutatedAllele < this.minValue) {
                     mutatedAllele = (double)this.minValue;
                 } else if (mutatedAllele > this.maxValue) {
                     mutatedAllele = (double)this.maxValue;
                 }
-                currentIndividual.set(randomGeneIndex, mutatedAllele);
-                individuals.set(i, currentIndividual);
+                currentChild.set(randomGeneIndex, mutatedAllele);
+                children.set(i, currentChild);
 //                System.out.println("So sieht es nach der Mutation aus: " +
 //                        individuals.get(i));
             }
         }
-        return individuals;
+        population.setChildren(children);
+        return population;
     }
 
-    private List<List<Double>> mutateBinary(List<List<Double>> individuals) {
+    private Population mutateBinary(Population population) {
 
-        for (int i = 0; i < individuals.size(); i++) {
+        List<List<Double>> children = population.getChildren();
 
-            List<Double> currentIndividual = individuals.get(i);
+        for (int i = 0; i < children.size(); i++) {
 
-            int randomGeneIndex = SRandom.getRandomIndex(currentIndividual.size());
-            Double chosenGeneReal = currentIndividual.get(randomGeneIndex);
+            List<Double> currentChild = children.get(i);
+
+            int randomGeneIndex = SRandom.getRandomIndex(currentChild.size());
+            Double chosenGeneReal = currentChild.get(randomGeneIndex);
 
             Double randomMutationProbability = SRandom.getRandomProbability();
             if (randomMutationProbability < this.probability) {
 
-                Double randomMutationValue;
                 String chosenGeneBinary;
                 int randomBitIndex;
                 try {
-                    randomMutationValue = (double)SRandom.createRandomInt(this
-                            .minValue, this.maxValue);
                     chosenGeneBinary = SConverter.doubleToBinaryString
                             (chosenGeneReal, this.countPreceedingDigits, this
                                     .lengthMantissa);
                     randomBitIndex = SRandom.getRandomIndex(chosenGeneBinary.length());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    return individuals;
+                    return population;
                 }
-
 //                System.out.println("Folgendes Individuum wird mutiert: " +
 //                        currentIndividual);
 
@@ -120,12 +112,13 @@ public class Mutation {
                 Double mutatedAllele = SConverter.binaryStringToDouble
                         (chosenGene.toString(), this.countPreceedingDigits, this
                                 .lengthMantissa);
-                currentIndividual.set(randomGeneIndex, mutatedAllele);
-                individuals.set(i, currentIndividual);
+                currentChild.set(randomGeneIndex, mutatedAllele);
+                children.set(i, currentChild);
 //                System.out.println("So sieht es nach der Mutation aus: " +
 //                        individuals.get(i));
             }
         }
-        return individuals;
+        population.setChildren(children);
+        return population;
     }
 }

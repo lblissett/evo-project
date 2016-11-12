@@ -87,7 +87,7 @@ public class SFileManager {
         return new Population(individuals);
     }
 
-    public static void saveResults(Map<String,String> results, String
+    public static void saveResults(Map<String, List<String>> results, String
             savePath) {
 
         Path path = new File(savePath).toPath();
@@ -112,15 +112,14 @@ public class SFileManager {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write("Zyklus,Fitness");
+            bw.write("Zyklus, bester Fitnesswert Real, Binaer1P, Binaer2P");
             bw.newLine();
-            for ( Map.Entry<String,String> e : results.entrySet()) {
+            for ( Map.Entry<String, List<String>> e : results.entrySet()) {
 
-                bw.write(e.getKey() + "," + e.getValue());
+                bw.write(e.getKey() + "," + e.getValue().get(0) + "," + e
+                        .getValue().get(1) + "," +e.getValue().get(2));
                 bw.newLine();
             }
-
-
             bw.close();
 
         } catch (IOException e) {

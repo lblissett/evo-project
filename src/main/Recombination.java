@@ -1,9 +1,5 @@
 package main;
 
-import main.enums.Encoding;
-import main.enums.RecombinationTypeBinary;
-import main.enums.RecombinationTypeReal;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,53 +8,37 @@ import java.util.List;
  */
 public class Recombination {
 
-    private Encoding encoding;
-    private RecombinationTypeReal recombinationTypeReal;
-    private RecombinationTypeBinary recombinationTypeBinary;
     private int countPreceedingDigits;
     private int lengthMantissa;
 
     /**
      * Creates a new recombination object for building a new child generation from parent generation
      */
-    public Recombination(Encoding encoding, RecombinationTypeReal
-            recombinationTypeReal, RecombinationTypeBinary
-            recombinationTypeBinary, int countPreceedingDigits, int
+    public Recombination(int countPreceedingDigits, int
             lengthMantissa) {
-        this.encoding = encoding;
-        this.recombinationTypeReal = recombinationTypeReal;
-        this.recombinationTypeBinary = recombinationTypeBinary;
         this.countPreceedingDigits = countPreceedingDigits;
         this.lengthMantissa = lengthMantissa;
     }
 
     /**
      * Returns a new child generation after recombining within parent generation
-     * @param parentCouples List of parent couples
-     * @return List of child individuals
+     * @param {Population} List of population
+     * @return population with new generation
      */
-    public List<List<Double>> start(List<List<List<Double>>> parentCouples) {
+    public Populations start(Populations populations) {
 
-        switch (this.encoding) {
-            case REAL:
-                switch (this.recombinationTypeReal) {
-                    case INTERMEDIUM: return this.intermediateMethod(parentCouples);
-                    case ARITHMETIC: return this.arithmeticMethod(parentCouples);
-                }
-            case BINARY:
-                switch (this.recombinationTypeBinary) {
-                    case ONEPOINT: return this.onePointMethod(parentCouples);
-                    case TWOPOINT: return this.twoPointMethod(parentCouples);
-                }
-        }
-        return intermediateMethod(parentCouples);  // Default
+        populations.setReal(this.intermediateMethod(populations.getReal()));
+        populations.setBinaryOnePoint(this.onePointMethod(populations.getBinaryOnePoint()));
+        populations.setBinaryTwoPoint(this.twoPointMethod(populations
+                .getBinaryTwoPoint()));
+        return populations;
     }
 
-    private List<List<Double>> intermediateMethod(List<List<List<Double>>> parentCouples) {
+    private Population intermediateMethod(Population population) {
 
         List<List<Double>> children = new ArrayList<>();
 
-        for (List<List<Double>> parents : parentCouples) {
+        for (List<List<Double>> parents : population.getParentCouples()) {
 
             List<Double> parentA = parents.get(0);
             List<Double> parentB = parents.get(1);
@@ -74,8 +54,8 @@ public class Recombination {
             }
             children.add(new ArrayList<>(childGenome));
         }
-
-        return children;
+        population.setChildren(children);
+        return population;
     }
 
     private List<List<Double>> arithmeticMethod(List<List<List<Double>>>
@@ -83,12 +63,11 @@ public class Recombination {
         return new ArrayList<>();
     }
 
-    private List<List<Double>> onePointMethod(List<List<List<Double>>>
-                                                    parentCouples) {
+    private Population onePointMethod(Population population) {
 
         List<List<Double>> children = new ArrayList<>();
 
-        for (List<List<Double>> parents : parentCouples) {
+        for (List<List<Double>> parents : population.getParentCouples()) {
 
             List<Double> parentA = parents.get(0);
             List<String> parentBinaryA;
@@ -103,7 +82,7 @@ public class Recombination {
                                 .countPreceedingDigits, this.lengthMantissa);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return children;
+                return population;
             }
 
             List<Double> childGenome = new ArrayList<>();
@@ -122,16 +101,15 @@ public class Recombination {
             }
             children.add(childGenome);
         }
-
-        return children;
+        population.setChildren(children);
+        return population;
     }
 
-    private List<List<Double>> twoPointMethod(List<List<List<Double>>>
-                                                      parentCouples) {
+    private Population twoPointMethod(Population population) {
 
         List<List<Double>> children = new ArrayList<>();
 
-        for (List<List<Double>> parents : parentCouples) {
+        for (List<List<Double>> parents : population.getParentCouples()) {
 
             List<Double> parentA = parents.get(0);
             List<String> parentBinaryA;
@@ -146,7 +124,7 @@ public class Recombination {
                                 .countPreceedingDigits, this.lengthMantissa);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return children;
+                return population;
             }
 
             List<Double> childGenome = new ArrayList<>();
@@ -188,7 +166,7 @@ public class Recombination {
             }
             children.add(childGenome);
         }
-
-        return children;
+        population.setChildren(children);
+        return population;
     }
 }

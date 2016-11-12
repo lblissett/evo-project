@@ -18,23 +18,30 @@ public class EnvironmentSelection {
 
     /**
      * Starts environment selection to kill individuals after certain rules
-     * @param population
+     * @param populations
      * @return List of individuals
      */
-    public List<List<Double>> start(Population population, Integer
+    public Populations start(Populations populations, Integer
             countFittest, Integer countRandomIndividuals) {
 
-        return selectFittest(population, countFittest, countRandomIndividuals);
+        populations.setReal(this.selectFittestAndRandom(populations.getReal(),
+                countFittest,
+                countRandomIndividuals));
+        populations.setBinaryOnePoint(this.selectFittestAndRandom(populations
+                .getBinaryOnePoint(), countFittest, countRandomIndividuals));
+        populations.setBinaryTwoPoint(this.selectFittestAndRandom(populations
+                .getBinaryTwoPoint(), countFittest, countRandomIndividuals));
+        return populations;
     }
 
-    private List<List<Double>> selectFittest(Population population, Integer
+    private Population selectFittestAndRandom(Population population, Integer
             countFittest, Integer countRandomIndividuals) {
 
         List<List<Double>> parentsAndChildren = population.getParents();
         parentsAndChildren.addAll(population.getChildren());
 
         List<List<Double>> fittest = FitnessFunction
-                .calculateGriewankSorted(population.getParents());
+                .calculateGriewankSorted(parentsAndChildren);
         List<List<Double>> topIndividuals = fittest
                 .subList(0, countFittest);
 
@@ -55,7 +62,7 @@ public class EnvironmentSelection {
             }
             topIndividuals.addAll(randomIndividuals);
         }
-
-        return topIndividuals;
+        population.setParents(topIndividuals);
+        return population;
     }
 }

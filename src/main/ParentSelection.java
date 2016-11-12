@@ -25,36 +25,72 @@ public class ParentSelection {
 
     /**
      * Selects population couples as new parents
-     * @param population Population of parent and child individuals
+     * @param populations Populations of parent and child individuals for
+     *                    different encoding
      * @return List of arrays of individuals as parent couples
      */
-    public List<List<List<Double>>> start(Population population) {
-        return randomSelection(population);
+    public Populations start(Populations populations) {
+
+        return randomSelection(populations);
     }
 
-    private List<List<List<Double>>> randomSelection(Population population) {
+    private Populations randomSelection(Populations populations) {
 
-        List<List<List<Double>>> parentCouples = new ArrayList<>();
-        //All individuals in one list
-        List<List<Double>> allIndividuals = population.getParents();
+        populations.resetChildren();
+        populations.resetParentCouples();
 
+        int countParents = populations.getReal().getParents().size();
         int counter = 0;
-
         while(counter < this.countSelectedParentCouples) {
 
-            List<Double> parent1 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
-            List<Double> parent2 = allIndividuals.get(SRandom.getRandomIndex(allIndividuals.size()));
+            // zufällig Elternteile auswählen:
+            int randomIndex1 = SRandom.getRandomIndex(countParents);
+            int randomIndex2 = SRandom.getRandomIndex(countParents);
+
+            // Wenn 2x das gleiche Elternteil ausgewählt wurde, Auswahl
+            // verwerfen
+            if (randomIndex1 == randomIndex2) continue;
+
+            List<Double> parentReal1 = populations.getReal().getParents().get
+                    (randomIndex1);
+            List<Double> parentReal2 = populations.getReal().getParents().get
+                    (randomIndex2);
+
+            List<List<Double>> parentsReal = new ArrayList<>();
+            parentsReal.add(parentReal1);
+            parentsReal.add(parentReal2);
+
+            // Wenn diese Kombination bereits existiert, dann Auswahl verwerfen
+            if (populations.getReal().getParentCouples().contains(parentsReal))
+                continue;
 
             if (SRandom.getRandomProbability() < this.recombinationProbability) {
-                List<List<Double>> parents= new ArrayList<>();
-                parents.add(parent1);
-                parents.add(parent2);
-                parentCouples.add(parents);
+
+                populations.addParentCoupleReal(parentsReal);
+
+                List<Double> parentBinaryOnePoint1 = populations
+                        .getBinaryOnePoint().getParents().get(randomIndex1);
+                List<Double> parentBinaryOnePoint2 = populations
+                        .getBinaryTwoPoint().getParents().get(randomIndex2);
+                List<List<Double>> parentsBinaryOnePoint = new ArrayList<>();
+                parentsBinaryOnePoint.add(parentBinaryOnePoint1);
+                parentsBinaryOnePoint.add(parentBinaryOnePoint2);
+                populations.addParentCoupleBinaryOnePoint(parentsBinaryOnePoint);
+
+                List<Double> parentBinaryTwoPoint1 = populations
+                        .getBinaryTwoPoint().getParents().get(randomIndex1);
+                List<Double> parentBinaryTwoPoint2 = populations
+                        .getBinaryTwoPoint().getParents().get(randomIndex2);
+                List<List<Double>> parentsBinaryTwoPoint = new ArrayList<>();
+                parentsBinaryTwoPoint.add(parentBinaryTwoPoint1);
+                parentsBinaryTwoPoint.add(parentBinaryTwoPoint2);
+                populations.addParentCoupleBinaryTwoPoint(parentsBinaryTwoPoint);
+
                 ++counter;
             }
         }
 
-        return parentCouples;
+        return populations;
     }
 
     private List<List<List<Double>>> tournamentSelection(Population population) {
