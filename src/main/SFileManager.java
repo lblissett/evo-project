@@ -112,12 +112,14 @@ public class SFileManager {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write("Zyklus, bester Fitnesswert Real, Binaer1P, Binaer2P");
+            bw.write("Zyklus, bester Fitnesswert Real, Binaer1P, Binaer2P, worstReal, worstBinaer1P, worstBinaer2P");
             bw.newLine();
             for ( Map.Entry<String, List<String>> e : results.entrySet()) {
 
                 bw.write(e.getKey() + "," + e.getValue().get(0) + "," + e
-                        .getValue().get(1) + "," +e.getValue().get(2));
+                        .getValue().get(1) + "," +e.getValue().get(2)
+                        + "," + e.getValue().get(3) + "," + e.getValue().get(4)
+                        + "," + e.getValue().get(5));
                 bw.newLine();
             }
             bw.close();

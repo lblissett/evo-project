@@ -24,7 +24,7 @@ public class Main {
 
         // 1) allgemein:
         logger.info("Initialisierungs-Parameter");
-        int countEvolutionCycles = 500;  // maximale Anzahl Evolutionszyklen
+        int countEvolutionCycles = 1500;  // maximale Anzahl Evolutionszyklen
         logger.info("Anzahl der Evolutionsschritte: " + countEvolutionCycles);
         String populationSavePath = "src/data/population.txt";
         String resultsSavePathReal = "src/data/results_" + now + ".csv";
@@ -33,7 +33,7 @@ public class Main {
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
         logger.info("Anfangsgroesse der Population: " + startSizePopulation);
-        int countGenes = 100;               // Anzahl Gene pro Individuum
+        int countGenes = 5;            // Anzahl Gene pro Individuum
         logger.info("Anzahl der Gene: " + countGenes);
         int minAllele = -512;             // Minimalwert Wertebereich
         logger.info("Kleinster Wert eines Gens: " + minAllele);
@@ -113,10 +113,16 @@ public class Main {
 
         List<Double> fittestReal = new ArrayList<>();
         Double fitnessValueReal = -1.0;
+        List<Double> worstReal = new ArrayList<>();
+        Double worstValueReal = -1.0;
         List<Double> fittestBinary1P = new ArrayList<>();
         Double fitnessValueBinary1P = -1.0;
+        List<Double> worstBinary1P = new ArrayList<>();
+        Double worstValueBinary1P = -1.0;
         List<Double> fittestBinary2P = new ArrayList<>();
         Double fitnessValueBinary2P = -1.0;
+        List<Double> worstBinary2P = new ArrayList<>();
+        Double worstValueBinary2P = -1.0;
         Double bestFitnessValueReal = (double) maxAllele;
         List<Double> bestIndividualReal = new ArrayList<>();
         Double bestFitnessValueBinary1P = (double) maxAllele;
@@ -204,34 +210,45 @@ public class Main {
             //region Ergebnisse speichern:
             fittestReal = populations.getReal().getParents()
                     .get(0); // erstes Individuum = bestes
+            worstReal = populations.getReal().getParents()
+                    .get(populations.getReal().getParents().size()-1);
+
             fitnessValueReal = FitnessFunction.calculateGriewank(fittestReal);
+            worstValueReal = FitnessFunction.calculateGriewank(worstReal);
             if (fitnessValueReal < bestFitnessValueReal) {
                 bestFitnessValueReal = fitnessValueReal;
                 bestIndividualReal = fittestReal;
             }
             fittestBinary1P = populations.getBinaryOnePoint()
                     .getParents().get(0);
+            worstBinary1P = populations.getBinaryOnePoint()
+                    .getParents().get(populations.getReal().getParents().size()-1);
             fitnessValueBinary1P = FitnessFunction.calculateGriewank(fittestBinary1P);
+            worstValueBinary1P = FitnessFunction.calculateGriewank(worstBinary1P);
             if (fitnessValueBinary1P < bestFitnessValueBinary1P) {
                 bestFitnessValueBinary1P = fitnessValueBinary1P;
                 bestIndividualBinary1P = fittestBinary1P;
             }
             fittestBinary2P = populations.getBinaryTwoPoint()
                     .getParents().get(0);
+            worstBinary2P = populations.getBinaryTwoPoint()
+                    .getParents().get(populations.getReal().getParents().size()-1);
             fitnessValueBinary2P = FitnessFunction.calculateGriewank(fittestBinary2P);
+            worstValueBinary2P = FitnessFunction.calculateGriewank(worstBinary2P);
             if (fitnessValueBinary2P < bestFitnessValueBinary2P) {
                 bestFitnessValueBinary2P = fitnessValueBinary2P;
                 bestIndividualBinary2P = fittestBinary2P;
             }
 
-            results.put(currentCycle.toString(), new ArrayList<>(Arrays.asList(fitnessValueReal
-                            .toString(), fitnessValueBinary1P.toString(),
-                    fitnessValueBinary2P.toString())));
+            results.put(currentCycle.toString(), new ArrayList<>(Arrays.asList(fitnessValueReal.toString(),
+                    fitnessValueBinary1P.toString(), fitnessValueBinary2P.toString(),
+                    worstValueReal.toString(), worstValueBinary1P.toString(),
+                    worstValueBinary2P.toString())));
             //endregion
 
             // Vergroeßern der Population
-//            countFittest++;
-//            countParentCouples++;
+ //           countFittest++;
+  //         countParentCouples++;
             currentCycle++;
         }
         //endregion
