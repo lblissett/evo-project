@@ -1,5 +1,5 @@
 wd <- getwd()
-project <- "/IdeaProjects/evo-project/src/data/1500/"
+project <- "/IdeaProjects/evo-project/src/data/"
 path <- paste(wd, project, sep="/")
 setwd(path)
 mydata5 = read.csv("results_n5_isGrowing_true.csv", header=TRUE)
