@@ -25,7 +25,6 @@ public class Main {
         logger.info("Initialisierungs-Parameter");
         int countEvolutionCycles = 1500;  // maximale Anzahl Evolutionszyklen
         logger.info("Anzahl der Evolutionsschritte: " + countEvolutionCycles);
-        String populationSavePath = "src/data/population.txt";
 
         // 2) Population:
         int startSizePopulation = 10;     // Anfangsgröße der Population
@@ -88,6 +87,8 @@ public class Main {
 
                 int n = countGenes.get(j);
                 System.out.println("n = " + n);
+
+                String populationSavePath = "src/data/population_n" + n +".txt";
 
                 String resultsSavePath = "src/data/results_n" + n +
                         "_isGrowing_" + isGrowing + ".csv";
