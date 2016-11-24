@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by geopras on 11.11.16.
@@ -87,7 +86,7 @@ public class SFileManager {
         return new Population(individuals);
     }
 
-    public static void saveResults(Map<String, List<String>> results, String
+    public static void saveResults(List<List<String>> results, String
             savePath) {
 
         Path path = new File(savePath).toPath();
@@ -114,12 +113,12 @@ public class SFileManager {
 
             bw.write("Zyklus, bester Fitnesswert Real, Binaer1P, Binaer2P, worstReal, worstBinaer1P, worstBinaer2P");
             bw.newLine();
-            for ( Map.Entry<String, List<String>> e : results.entrySet()) {
+            for ( List<String> resultsCycle : results) {
 
-                bw.write(e.getKey() + "," + e.getValue().get(0) + "," + e
-                        .getValue().get(1) + "," +e.getValue().get(2)
-                        + "," + e.getValue().get(3) + "," + e.getValue().get(4)
-                        + "," + e.getValue().get(5));
+                bw.write(resultsCycle.get(0) + "," + resultsCycle.get(1)  +
+                        "," + resultsCycle.get(2) + "," + resultsCycle.get(3)
+                                + "," + resultsCycle.get(4) + "," +
+                                resultsCycle.get(5));
                 bw.newLine();
             }
             bw.close();
