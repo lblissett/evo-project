@@ -18,6 +18,8 @@
 \usepackage{float}
 
 \usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{caption}
 
 \usepackage{listings}
 \usepackage{color}
@@ -99,14 +101,14 @@
 
 
 %kopf und fusszeile
-\usepackage[headsepline]{scrpage2}
-\pagestyle{scrheadings} 
-\setlength{\footskip}{8mm}
-\clearscrheadings
-\ihead{\leftmark}
-\ohead{\rightmark}
-\automark[section]{chapter}
-\cfoot{\pagemark}
+%\usepackage[headsepline]{scrpage2}
+%\pagestyle{scrheadings} 
+%\setlength{\footskip}{8mm}
+%\clearscrheadings
+%\ihead{\leftmark}
+%\ohead{\rightmark}
+%\automark[section]{chapter}
+%\cfoot{\pagemark}
 %kopf und fusszeile
 
 %Schriftart sfffamily serifenlos
@@ -144,7 +146,7 @@
 			Staatliche Studienakadamie Leipzig \\[2.4cm]
            
 			\begin{huge}
-			    \textbf{Binäre und reelle Codierung im Vergleich} \\[2.4cm]
+			    \textbf{Binäre und reelle Kodierung im Vergleich} \\[2.4cm]
 			\end{huge}
 			
 			\doublespacing
@@ -175,47 +177,106 @@
     \pagenumbering{arabic}
     \setcounter{page}{2}
     
-\section*{Einführung}	\onehalfspacing
-	
-.
+\section*{1. Einführung}	\onehalfspacing
 
-.
+Zur näherungsweisen Berechnung des globalen Minimums der Griewank-Funktion wird ein evolutionärer Algorithmus eingesetzt. Dieser Algorithmus wird vor allem im Hinblick auf den Einfluss  a) unterschiedlicher Kodierungsarten b) stabiler und wachsender Populationsgrößen auf den Fitnesswert der Individuen untersucht. Zusätzlich wird die Differenz zwischen dem besten und dem schlechtesten Individuum in der Population als Maß der Streuung betrachtet. Die Minimierung der Griewank-Funktion wird für drei verschiedene n (n=5, 20, 50) getestet:
 
-.
-
-.
+\[f(x) = 1 +  \sum_{i=1}^n \frac{x_i^{2}}{400n} -  \prod \limits_{i=1}^n cos \left(\frac{x_i}{\sqrt{i}}\right)\]
 
 
-	
-	
-\section*{Umsetzung}
+\section*{2. Umsetzung}
 
+
+Für die Umsetzung wird folgenden Algorithmus verwendet:
+
+\begin{enumerate}
+	\item Erzeugung der Startpopulation 
 	\begin{itemize}
-	
-	
-	\item Zahl: Folge der Ziffern 0-9
-	\item String: enthält eine Zeichenkette
-	\item Array: geordnete Liste von Werten die mit  formatiert wird
-	\item Objekt: eine ungeordnete Liste von Eigenschaften, bestehen aus einem Schlüssel und einem Wert (Schlüssel:Wert). Der Schlüssel ist String, der Wert kann ein Objekt, Array, eine Zahl, ein boolscher Ausdruck oder wiederum ein String sein. 
-	\item Boolean: entweder true oder false
-	\item Nullwert: mit Schlüsselwort null gekennzeichnet
-	
-	
-\end{itemize}
-	
+		\item fixe Ausgangspopulation mit X Anfangsindividuen
+	\end{itemize}
+	\item Elternselektion
+		\begin{itemize}
+		\item Anzahl Elternpaar = e mit zufälliger Selektion
+		\item e wachsend bzw. stabil
+	\end{itemize}
+	\item Rekombination
+		\begin{itemize}
+		\item Reelle Kodierung: intermediäre Rekombination
+		\item Binärkodierung: Ein-Punkt- und Zwei-Punkt-Rekombination (Zwei-Punkt: Mittelteil austauschen)
+	\end{itemize}
+	\item Mutation
+		\begin{itemize}
+		\item Mutationswahrscheinlichkeit M [0,1]
+		\item von jedem Individuum soll zufällig ein Gen ausgewählt werden
+		\item für Mutation eines Gens Zufallszahl z [0,1] ermitteln
+		\item Reelle Kodierung: wenn z $<$ M, dann mutiere: addiere zum gewählten Allel einen festen Wert W
+		\item Binärkodierung: zufällig von dem gewählten Binär-Allel ein Bit auswählen, wenn z $<$ M, dann switche Bit von 0 zu 1 bzw. 1 zu 0
+	\end{itemize} 
+	\item Umweltselektion
+		\begin{itemize}
+		\item aus Eltern + Kindern soll neue Population gewählt werden 
+		\item zuerst die besten A Individuen nehmen (deterministische Selektion) Gesamtpopulation soll wachsen (A wächst linear von Generation zu Generation um +1 an)
+		\item dann aus Rest zufällig B Individuen auswählen
+	\end{itemize}
+	\item gehe zu Punkt 2 bis Abbruchkriterium K erreicht
+\end{enumerate}
+
+\begin{table}[h]
+	\centering
+	\caption*{Verwendete Parameter}
+	\begin{tabularx}{14cm}{|p{9cm}|X|}
+		\hline
+		$Parameter$ & $Wert$ \\
+		\hline
+		\hline
+		Größe der Startpopulation X Individuen& 10  \\
+				\hline
+		Anzahl der Elternpaare e & 10 (+1 pro Zyklus)  \\
+				\hline
+		Rekombinationswahrscheinlichkeit& 0.9 \\
+				\hline
+		Mutationswahrscheinlichkeit M & 0.1 \\
+				\hline
+		reeller Mutationswert W& +5.0  \\
+				\hline
+		Auswahl bester Individuen a& 10 (+1 pro Zyklus) \\
+		\hline
+		Auswahl zufällige Umweltselektion B& 3 \\
+		\hline
+		Abbruchkriterium K Zyklen & 1500\\
+		\hline
+	\end{tabularx}
+\end{table}
 
 
-
 	
-\section*{Ergebnisse}	
+\section*{3. Ergebnisse und Interpretation}	
 
-
+Vergleich Kodierungsarten
 		\begin{figure}[H]
-			\includegraphics[width=0.95\textwidth]{spannweite-5-gene.jpeg} 
+			\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
 			
-			\caption{Spannweite bei 5 Genen} 
+			\caption*{Spannweite bei 5 Genen} 
 			\label{InputOutput}
 		\end{figure}
+
+Population stabil vs. wachsend
+	\begin{figure}[H]
+	\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
+	
+	\caption*{Spannweite bei 5 Genen} 
+	\label{InputOutput}
+\end{figure}
+
+
+Streuung:	
+		\begin{figure}[H]
+		\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
+		
+		\caption*{Spannweite bei 5 Genen} 
+		\label{InputOutput}
+	\end{figure}
+
 
 	
 	
