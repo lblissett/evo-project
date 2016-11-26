@@ -113,12 +113,12 @@ public class SFileManager {
 
             bw.write("Zyklus, bester Fitnesswert Real, Binaer1P, Binaer2P, worstReal, worstBinaer1P, worstBinaer2P");
             bw.newLine();
-            for ( List<String> resultsCycle : results) {
+            for (int i = 0; i < results.get(0).size(); i++) {
 
-                bw.write(resultsCycle.get(0) + "," + resultsCycle.get(1)  +
-                        "," + resultsCycle.get(2) + "," + resultsCycle.get(3)
-                                + "," + resultsCycle.get(4) + "," +
-                                resultsCycle.get(5));
+                bw.write(i + "," + results.get(0).get(i) + "," + results.get(1).get(i)  +
+                        "," + results.get(2).get(i) + "," + results.get(3).get(i)
+                                + "," + results.get(4).get(i) + "," +
+                        results.get(5).get(i));
                 bw.newLine();
             }
             bw.close();
