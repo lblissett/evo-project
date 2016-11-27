@@ -179,15 +179,15 @@
     
 \section*{1. Einführung}	\onehalfspacing
 
-Zur näherungsweisen Berechnung des globalen Minimums der Griewank-Funktion wird ein evolutionärer Algorithmus eingesetzt. Dieser Algorithmus wird vor allem im Hinblick auf den Einfluss  a) unterschiedlicher Kodierungsarten b) stabiler und wachsender Populationsgrößen auf den Fitnesswert der Individuen untersucht. Zusätzlich wird die Differenz zwischen dem besten und dem schlechtesten Individuum in der Population als Maß der Streuung betrachtet. Die Minimierung der Griewank-Funktion wird für drei verschiedene n (n=5, 20, 50) getestet:
+Zur näherungsweisen Berechnung des globalen Minimums der Griewank-Funktion: \[f(x) = 1 +  \sum_{i=1}^n \frac{x_i^{2}}{400n} -  \prod \limits_{i=1}^n cos \left(\frac{x_i}{\sqrt{i}}\right)\] wird ein evolutionärer Algorithmus eingesetzt. Dieser Algorithmus wird vor allem im Hinblick auf den Einfluss  a) unterschiedlicher Kodierungsarten b) stabiler und wachsender Populationsgrößen auf den Fitnesswert der Individuen untersucht. Zusätzlich wird die Differenz zwischen dem besten und dem schlechtesten Individuum in der Population als Maß der Streuung betrachtet. Die Minimierung der Griewank-Funktion wird für drei verschiedene n (n=5, 20, 50) im Wertebereich von -512 bis 511 getestet:
 
-\[f(x) = 1 +  \sum_{i=1}^n \frac{x_i^{2}}{400n} -  \prod \limits_{i=1}^n cos \left(\frac{x_i}{\sqrt{i}}\right)\]
+
 
 
 \section*{2. Umsetzung}
 
 
-Für die Umsetzung wird folgenden Algorithmus verwendet:
+Für die Umsetzung wird folgender Algorithmus verwendet:
 
 \begin{enumerate}
 	\item Erzeugung der Startpopulation 
@@ -252,19 +252,18 @@ Für die Umsetzung wird folgenden Algorithmus verwendet:
 	
 \section*{3. Ergebnisse und Interpretation}	
 
-Vergleich Kodierungsarten
+Beim Vergleich der Kodierungsarten fällt auf, dass die beiden binären Kodierungen sich schneller zum globalen Minimum orientieren und bessere Fitnesswerte bringen. Die reele Kodierung liefert schlechtere Ergebnisse.
 		\begin{figure}[H]
-			\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
-			
-			\caption*{Spannweite bei 5 Genen} 
+			\includegraphics[width=0.75\textwidth]{best-20-stable.jpeg}
+			\caption*{Kodierung im Vergleich bei n=20 (stabile Bevölkerung)} 
 			\label{InputOutput}
 		\end{figure}
 
-Population stabil vs. wachsend
+Dieses Ergebnis wird auch bei einer wachsenden Bevölkerung erreicht. Im Unterschied zur stabilen Bevölkerung liefert der Algorithmus aber bessere Ergebnisse. D.h. es werden schneller bessere Fitnesswerte erreicht und die binäre Kodierungsarten finden mit $<$ 200 Zyklen und n=20 das globale Minimum von 0.
 	\begin{figure}[H]
-	\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
+	\includegraphics[width=0.75\textwidth]{best-20-grow.jpeg} 
 	
-	\caption*{Spannweite bei 5 Genen} 
+	\caption*{Kodierungen im Vergleich bei n=20 (wachsende Bevölkerung)} 
 	\label{InputOutput}
 \end{figure}
 
@@ -273,7 +272,7 @@ Streuung:
 		\begin{figure}[H]
 		\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
 		
-		\caption*{Spannweite bei 5 Genen} 
+		\caption*{Streuung der Individuen} 
 		\label{InputOutput}
 	\end{figure}
 
