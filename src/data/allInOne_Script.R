@@ -74,4 +74,19 @@ mydata5 <- cbind (mydata5, "RangeReel" = mydata5$worstReal - mydata5$bester.Fitn
 
 ggsave("../best-and-worst.jpeg")
 
+limitsY = c(0, 140)
+stepsY = c(0,1, 10,20,30,40,50,60,70,80,90,100, 110,120,130,140)
+
+g50worst <- ggplot(data=mydata50, aes(x=mydata50$Zyklus, fill=Kodierung))+
+geom_ribbon(aes(ymin=mydata50$Binaer1P, ymax=mydata50$worstBinaer1P, fill="Binaer1P"))+
+geom_ribbon(aes(ymin=mydata50$Binaer2P, ymax=mydata50$worstBinaer2P, fill="Binaer2P"))  +
+geom_ribbon(aes(ymin=mydata50$bester.Fitnesswert.Real, ymax=mydata50$worstReal+0.5,fill="Real")) +
+scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY) +
+scale_fill_manual(name = "Kodierung", values =c('Binaer1P'='orange','Binaer2P'='red', 'Real'='black'))
+
+
+g50worst + theme() + theme(panel.grid.major = element_line(color = "black", linetype = "dotted"), legend.position = c(0.80,0.90)) + labs(x = "Zyklus",y = "Fitnesswert", title = "Bester und schlechtester Fitnessverlauf mit 50 Genen (wachsende Population)")
+
+
+
 
