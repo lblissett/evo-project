@@ -255,7 +255,7 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 Beim Vergleich der Kodierungsarten fällt auf, dass die beiden binären Kodierungen sich schneller zum globalen Minimum orientieren und bessere Fitnesswerte bringen. Die reele Kodierung liefert schlechtere Ergebnisse.
 		\begin{figure}[H]
 			\includegraphics[width=0.75\textwidth]{best-20-stable.jpeg}
-			\caption*{Kodierung im Vergleich bei n=20 (stabile Bevölkerung)} 
+			\caption*{Kodierung im Vergleich bei n=20 (stabile Population)} 
 			\label{InputOutput}
 		\end{figure}
 
@@ -263,14 +263,14 @@ Dieses Ergebnis wird auch bei einer wachsenden Bevölkerung erreicht. Im Untersc
 	\begin{figure}[H]
 	\includegraphics[width=0.75\textwidth]{best-20-grow.jpeg} 
 	
-	\caption*{Kodierungen im Vergleich bei n=20 (wachsende Bevölkerung)} 
+	\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
 	\label{InputOutput}
 \end{figure}
 
 
-Streuung:	
+Bei Betrachtung der Streuung der Individuen (d.h. dem Abstand des besten zum schlechtesten Individuum) ist auffällig, dass sich die Individuen bei der reelen Kodierung sehr schnell sehr ähnlich werden. Die Individuen bei der binären Kodierung streuen etwas mehr.
 		\begin{figure}[H]
-		\includegraphics[width=0.75\textwidth]{spannweite-5-gene.jpeg} 
+		\includegraphics[width=0.75\textwidth]{best-and-worst.jpeg} 
 		
 		\caption*{Streuung der Individuen} 
 		\label{InputOutput}
