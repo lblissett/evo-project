@@ -27,7 +27,7 @@ g5worst + theme() + theme(panel.grid.major = element_line(color = "black",
 linetype = "dotted"), legend.position = c(0.80,0.90)) + labs(x = "Zyklus",y =
  "Fitnesswert", title = "Mittlerer Fitnesswertverlauf mit 5 Genen (stabile Population)")
 
-g20worst <- ggplot(data=mydata20, aes(x=mydata20$Zyklus, color=Kodierung))  + geom_line(aes(y=mydata20$worstBinaer1P, col="worstBinaer1P"))+ geom_line(aes(y=mydata20$worstBinaer2P, col="worstBinaer2P")) + geom_line(aes(y=mydata20$worstReal, col="worstReal")) + scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY)
+g20worst <- ggplot(data=mydata20, aes(x=mydata20$Zyklus, color=Codierung))  + geom_line(aes(y=mydata20$worstBinaer1P, col="worstBinaer1P"))+ geom_line(aes(y=mydata20$worstBinaer2P, col="worstBinaer2P")) + geom_line(aes(y=mydata20$worstReal, col="worstReal")) + scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY)
 g20worst + theme() + theme(panel.grid.major = element_line(color = "black",
 linetype = "dotted"), legend.position = c(0.80,0.90)) + labs(x = "Zyklus",y =
  "Fitnesswert", title = "Mittlerer Fitnesswertverlauf mit 20 Genen (stabile Population)")
@@ -87,6 +87,46 @@ scale_fill_manual(name = "Kodierung", values =c('Binaer1P'='orange','Binaer2P'='
 
 g50worst + theme() + theme(panel.grid.major = element_line(color = "black", linetype = "dotted"), legend.position = c(0.80,0.90)) + labs(x = "Zyklus",y = "Fitnesswert", title = "Bester und schlechtester Fitnessverlauf mit 50 Genen (wachsende Population)")
 
+smydata5 = read.csv("mean100_n5_isGrowing_false.csv", header=TRUE)
+smydata20 = read.csv("mean100_n20_isGrowing_false.csv", header=TRUE)
+smydata50 = read.csv("mean100_n50_isGrowing_false.csv", header=TRUE)
 
+stepsY = c(0,10,20,30,40,50,60,70)
+limitsY = c(0, 75)
 
+s5 <- ggplot(data=smydata5, aes(x=mydata50$Zyklus, color=Kodierung)) +
+geom_line(aes(y=smydata5$bester.Fitnesswert.Real, col="n = 5")) +
+geom_line(aes(y=smydata20$bester.Fitnesswert.Real, col="n = 20"))+
+geom_line(aes(y=smydata50$bester.Fitnesswert.Real, col = "n = 50")) +
+scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY)
+s5 + theme() + theme(panel.grid.major = element_line(color = "black",
+linetype= "dotted"), legend.position=c(.80, .90)) +
+legend.title = element_text(colour="blue", size=16, face="bold") + labs(x =
+"Zyklus",y =
+"Fitnesswert", title = "Bester Fitnesswertverlauf (reelle Kodierung)")
+
+s5 <- ggplot(data=smydata5, aes(x=mydata50$Zyklus, color=Kodierung)) +
+geom_line(aes(y=smydata20$Binaer1P, col="n = 5"), size=2) +
+geom_line(aes(y=smydata5$Binaer1P, col="n = 20"), size=2)+
+geom_line(aes(y=smydata50$Binaer1P, col = "n = 50"), size=2) +
+scale_x_continuous(limits=limitsX, breaks=stepsX) +
+scale_y_continuous(limits=limitsY, breaks=stepsY) +
+scale_colour_discrete(name = "Kodierung", breaks=c("n = 5","n = 20","n = 50"))
+
+s5 + theme() + theme(plot.title = element_text(size = 20, hjust = 0.5),
+axis.title.x =element_text(size = rel(1.5)), axis.text.x =element_text(size = rel(1.5)),
+axis.title.y = element_text(size = rel(1.5), angle = 90), axis.text.y =element_text(size = rel(1.5)),
+panel.grid.major = element_line(color = "black",
+linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,
+face="bold")) + labs(size=20, x = "Zyklus",y =
+"Fitnesswert", title = "Bester Fitnesswertverlauf (Binärkodierung 1-Punkt)")
+
+s5 <- ggplot(data=smydata5, aes(x=mydata50$Zyklus, color=Kodierung)) +
+geom_line(aes(y=smydata5$Binaer2P, col="n = 5")) +
+geom_line(aes(y=smydata20$Binaer2P, col="n = 20"))+
+geom_line(aes(y=smydata50$Binaer2P, col = "n = 50")) +
+scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY)
+s5 + theme() + theme(panel.grid.major = element_line(color = "black",
+linetype= "dotted"), legend.position=c(.80, .90)) + labs(x = "Zyklus",y =
+"Fitnesswert", title = "Bester Fitnesswertverlauf (Binärkodierung 2-Punkt)")
 
