@@ -37,7 +37,7 @@ mydata50g = read.csv("mean100_n50_isGrowing_true.csv", header=TRUE)
 sg50s <- ggplot(data=mydata50s, aes(x=mydata50s$Zyklus, color=Kodierung)) +
 geom_line(aes(y =mydata50s$bester.Fitnesswert.Real, col="Reelle Werte"), size=2) +
 geom_line(aes(y=mydata50s$Binaer1P, col="Binär1P"), size=2)+
-geom_line(aes(y=mydata20$Binaer2P, col = "Binär2P"), size=2) +
+geom_line(aes(y=mydata50s$Binaer2P, col = "Binär2P"), size=2) +
 scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY) +
 scale_colour_discrete(name = "Kodierung", breaks=c("Reelle Werte","Binär1P","Binär2P"))
 
@@ -47,7 +47,9 @@ axis.title.y = element_text(size = rel(1.5), angle = 90), axis.text.y =element_t
 panel.grid.major = element_line(color = "black",
 linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,
 face="bold")) + labs(size=20, x = "Zyklus",y =
-"Fitnesswert", title = "stabile Population")
+"Fitnesswert", title = "Stabile Population (n = 50)")
+
+ggsave("../abb2_stable.jpeg")
 
 sg50g <- ggplot(data=mydata50g, aes(x=mydata50g$Zyklus, color=Kodierung)) +
 geom_line(aes(y =mydata50g$bester.Fitnesswert.Real, col="Reelle Werte"), size=2) +
@@ -61,9 +63,9 @@ axis.title.x =element_text(size = rel(1.5)), axis.text.x =element_text(size = re
 axis.title.y = element_text(size = rel(1.5), angle = 90), axis.text.y =element_text(size = rel(1.5)),
 panel.grid.major = element_line(color = "black",
 linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,
-face="bold")) + labs(size=20, x = "Zyklus",y ="Fitnesswert", title = "wachsende Population")
+face="bold")) + labs(size=20, x = "Zyklus",y ="Fitnesswert", title = "Wachsende Population (n = 50)")
 
-ggsave("../abb2_stable_growing.jpeg")
+ggsave("../abb2_growing.jpeg")
 
 # Abbildung Vergleich n
 mydata5n = read.csv("mean100_n5_isGrowing_true.csv", header=TRUE)
@@ -97,11 +99,11 @@ limitsY = c(0, 140)
 stepsY = c(0,1, 10,20,30,40,50,60,70,80,90,100, 110,120,130,140)
 
 bestWorst50 <- ggplot(data=myDataBW50, aes(x=myDataBW50$Zyklus, fill=Kodierung))+
-geom_ribbon(aes(ymin=myDataBW50$bester.Fitnesswert.Real, ymax=myDataBW50$worstReal+0.5,fill="Real")) +
+geom_ribbon(aes(ymin=myDataBW50$bester.Fitnesswert.Real, ymax=myDataBW50$worstReal+0.5,fill="Reelle Werte")) +
 geom_ribbon(aes(ymin=myDataBW50$Binaer1P, ymax=myDataBW50$worstBinaer1P, fill="Binaer1P"))+
 geom_ribbon(aes(ymin=myDataBW50$Binaer2P, ymax=myDataBW50$worstBinaer2P, fill="Binaer2P"))  +
 scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY) +
-scale_colour_discrete(name = "Kodierung", breaks =c('Real'='black','Binaer1P'='orange','Binaer2P'='red'))
+scale_colour_discrete(name = "Kodierung", breaks =c('Reelle Werte'='black','Binaer1P'='orange','Binaer2P'='red'))
 
 
 bestWorst50 + theme() + theme(plot.title = element_text(size = 20, hjust = 0.5),

@@ -252,39 +252,39 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 \section*{3. Ergebnisse und Interpretation}	
 
 Beim Vergleich der Kodierungsarten fällt auf, dass die beiden binären Kodierungen sich schneller zum globalen Minimum orientieren und bessere Fitnesswerte bringen. Die reele Kodierung liefert für alle n schlechtere Ergebnisse (s. nachfolgende Grafik für n=20).
-		\begin{figure}[H]
-			\includegraphics[width=0.75\textwidth]{../best-20-stable.jpeg}
-			\caption*{Kodierung im Vergleich bei n=20 (stabile Population)} 
-			\label{InputOutput}
-		\end{figure}
 
-Ähnliche Ergebnisse werden auch bei einer wachsenden Population erreicht. Im Unterschied zur stabilen Population liefert der Algorithmus aber bessere Ergebnisse für jede Kodierungsart. D.h. es werden in weniger Zyklen bessere Fitnesswerte erreicht, so dass etwa die binären Kodierungsarten bei n=20  das globale Minimum von 0 mit weniger als 200 Zyklen finden (s. nachfolgende Grafik mit n=20). 
-	\begin{figure}[H]
-	\includegraphics[width=0.75\textwidth]{../best-20-grow.jpeg} 
-	
-	\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
-	\label{InputOutput}
-\end{figure}
-
-
-Bei Betrachtung der Streuung der Individuen ist auffällig, dass sich bei der reellen Kodierung das schlechteste und das beste Individuum sehr schnell annähern. Bei der binären Kodierung sind die Unterschiede etwas ausgeprägter. Es wird vermutet dass die Streuung maßgeblich für das Ergebnis verantwortlich ist, so dass die besseren Ergebnisse bei den binären Kodierungen aufgrund der größeren Streuung zwischen den Individuen zustande kommen.
-		\begin{figure}[H]
-		\includegraphics[width=0.75\textwidth]{../best-and-worst.jpeg} 
-		
-		\caption*{Streuung der Individuen} 
-		\label{InputOutput}
-	\end{figure}
-
-\begin{figure}[!tbp]
+\begin{figure}[H]
 	\centering
 	\begin{minipage}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{../best-and-worst.jpeg}
+		\includegraphics[width=\textwidth]{../abb1_n20_stable.jpeg}
 	\end{minipage}
 	\hfill
 	\begin{minipage}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{../best-and-worst.jpeg}
+		\includegraphics[width=\textwidth]{../abb2_stable_growing.jpeg}
 	\end{minipage}
 \end{figure}
+
+
+Ähnliche Ergebnisse werden auch bei einer wachsenden Population erreicht. Im Unterschied zur stabilen Population liefert der Algorithmus aber bessere Ergebnisse für jede Kodierungsart. D.h. es werden in weniger Zyklen bessere Fitnesswerte erreicht, so dass etwa die binären Kodierungsarten bei n=20  das globale Minimum von 0 mit weniger als 200 Zyklen finden (s. nachfolgende Grafik mit n=20). 
+
+	\begin{figure}[H]
+		\includegraphics[width=0.75\textwidth]{../abb3_different_n.jpeg} 
+		
+		\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
+		\label{InputOutput}
+	\end{figure}
+
+
+
+Bei Betrachtung der Streuung der Individuen ist auffällig, dass sich bei der reellen Kodierung das schlechteste und das beste Individuum sehr schnell annähern. Bei der binären Kodierung sind die Unterschiede etwas ausgeprägter. Es wird vermutet dass die Streuung maßgeblich für das Ergebnis verantwortlich ist, so dass die besseren Ergebnisse bei den binären Kodierungen aufgrund der größeren Streuung zwischen den Individuen zustande kommen.
+
+	\begin{figure}[H]
+		\includegraphics[width=0.75\textwidth]{../abb4_streuung.jpeg} 
+		
+		\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
+		\label{InputOutput}
+	\end{figure}
+
 
 
 	
