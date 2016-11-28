@@ -157,8 +157,8 @@
 		\end{center}
 		\onehalfspacing
 		\begin{tabbing}
-			Eingereicht von: \= ~ \= ~ \= ~ \= Georg Andrassy \hspace*{3cm} Matrikelno: 5000593  \\
-			\> \> \> \> Martin Braun \hspace*{3.4cm} Matrikelno: 5000562 \\
+			Eingereicht von: \= ~ \= ~ \= ~ \= Georg Andrássy \hspace*{3cm} Matrikelnr: 5000593  \\
+			\> \> \> \> Martin Braun \hspace*{3.4cm} Matrikelnr: 5000562 \\
 			\\
 
 		\end{tabbing}
@@ -251,41 +251,65 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 	
 \section*{3. Ergebnisse und Interpretation}	
 
-Beim Vergleich der Kodierungsarten fällt auf, dass die beiden binären Kodierungen sich schneller zum globalen Minimum orientieren und bessere Fitnesswerte bringen. Die reele Kodierung liefert für alle n schlechtere Ergebnisse (s. nachfolgende Grafik für n=20).
+Die Ergebnisse wurden für vier verschiedene Aspekte ermittelt (Mittelwerte von 100 Versuchen, Abbruch nach 500 Zyklen):
+
+\begin{enumerate}
+	\item Vergleich zwischen Reeller und Binärer Kodierung (1-Punkt- und 2-Punkt-Rekombination)
+    \item Vergleich zwischen stabiler und wachsender Population
+    \item Vergleich zwischen verschiedener Anzahl an Genen (für n = 5, 20, 50)
+    \item Vergleich zwischen Streuung innerhalb der Kodierungsarten 
+\end{enumerate}
+
+Beim Vergleich der Kodierungsarten in Abbildung 1 fällt auf, dass die beiden binären Kodierungsarten bessere Fitnesswerte bringen. Innerhalb der Binärkodierung bringt zusätzlich die Eins-Punkt-Rekombinationsmethode noch einen schnelleren Abfall zum globalen Minimum. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{../abb1_n20_stable.jpeg} 
+	
+	\caption*{Abb.1: Kodierungen im Vergleich bei n=20 (stabile Population)} 
+	\label{InputOutput}
+\end{figure}
+
+Nach Abbildung 2 für n = 50 liefert der Algorithmus mit wachsender Population ein besseres Ergebnis als mit stabiler Population.
 
 \begin{figure}[H]
 	\centering
 	\begin{minipage}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{../abb1_n20_stable.jpeg}
+		\includegraphics[width=\textwidth]{../abb2_stable.jpeg}
 	\end{minipage}
 	\hfill
 	\begin{minipage}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{../abb2_stable_growing.jpeg}
+		\includegraphics[width=\textwidth]{../abb2_growing.jpeg}
 	\end{minipage}
+	\caption*{Abb.2: Vergleich stabile und wachsende Population (n=50)} 
+\end{figure}
+
+Mit steigender Anzahl der Gene wird das globale Minimum immer verzögerter annähernd erreicht, wie in Abbildung 3 zu sehen ist.
+
+Bei Betrachtung der Streuung der Individuen in Abbildung 4 ist auffällig, dass sich bei der reellen Kodierung das schlechteste und das beste Individuum sehr schnell annähern. Bei der binären Kodierung sind die Unterschiede etwas ausgeprägter. Es wird vermutet dass die Streuung maßgeblich für das Ergebnis verantwortlich ist, so dass die besseren Ergebnisse bei den binären Kodierungen aufgrund der größeren Streuung zwischen den Individuen zustande kommen.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{../abb3_different_n.jpeg} 
+	
+	\caption*{Abb.3: Vergleich verschiedene Anzahl an Genen (Binärkodierung mit 1-Punkt-Rekombination, wachsende Population)} 
+	\label{InputOutput}
 \end{figure}
 
 
-Ähnliche Ergebnisse werden auch bei einer wachsenden Population erreicht. Im Unterschied zur stabilen Population liefert der Algorithmus aber bessere Ergebnisse für jede Kodierungsart. D.h. es werden in weniger Zyklen bessere Fitnesswerte erreicht, so dass etwa die binären Kodierungsarten bei n=20  das globale Minimum von 0 mit weniger als 200 Zyklen finden (s. nachfolgende Grafik mit n=20). 
-
 	\begin{figure}[H]
-		\includegraphics[width=0.75\textwidth]{../abb3_different_n.jpeg} 
+		\centering
+		\includegraphics[width=0.7\textwidth]{../abb4_streuung.jpeg} 
 		
-		\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
+		\caption*{Abb.4: Vergleich der Streuung innerhalb der Kodierungsarten (n = 50, wachsende Population)} 
 		\label{InputOutput}
 	\end{figure}
 
+Im untersuchten Algorithmus liefert die reelle Kodierung generell schlechtere Ergebnisse. Ein Ansatzpunkt für bessere Ergebnisse  wäre, die Streuung der reell kodierten Individuen zu erhöhen. Durch die Anpassung  der weiteren Parameter des evolutionären Algorithmus sind bessere Ergebnisse zu erwarten. 
 
-
-Bei Betrachtung der Streuung der Individuen ist auffällig, dass sich bei der reellen Kodierung das schlechteste und das beste Individuum sehr schnell annähern. Bei der binären Kodierung sind die Unterschiede etwas ausgeprägter. Es wird vermutet dass die Streuung maßgeblich für das Ergebnis verantwortlich ist, so dass die besseren Ergebnisse bei den binären Kodierungen aufgrund der größeren Streuung zwischen den Individuen zustande kommen.
-
-	\begin{figure}[H]
-		\includegraphics[width=0.75\textwidth]{../abb4_streuung.jpeg} 
-		
-		\caption*{Kodierungen im Vergleich bei n=20 (wachsende Population)} 
-		\label{InputOutput}
-	\end{figure}
-
-
+Ein Erklärungsansatz für den Unterschied zwischen reeller und binärer Kodierung stellt die spezielle Anforderung der Griewank-Funktion dar. Deren globales Minimum liegt exakt bei Null. Bei der reellen Kodierung kann entweder ein zufällig anfangs existierendes Individuum mit Allelen nah bei Null für das optimale Ergebnis sorgen. Außerdem ist dies über die Mutation möglich. 
+Währenddessen bietet sich bei der Binärkodierung zusätzlich die Chance auf die Existenz eines solchen Individuums durch Rekombination von Elternpaaren, so dass sich ein Binärstrang ausschließlich aus Nullen ergeben kann.
 
 	
 	
