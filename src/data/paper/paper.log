@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.28)  28 NOV 2016 13:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.28)  29 NOV 2016 00:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1255,61 +1255,71 @@ ei-Punkt: Mit-
 [2
 
 ]
-Overfull \hbox (30.95366pt too wide) in paragraph at lines 257--258
+Underfull \hbox (badness 3780) in paragraph at lines 244--244
+[]|\OT1/cmr/m/n/12 10 (+1 pro Zy-klus,
+ []
+
+
+Underfull \hbox (badness 3780) in paragraph at lines 244--244
+[]|\OT1/cmr/m/n/12 10 (+1 pro Zy-klus,
+ []
+
+
+Overfull \hbox (30.95366pt too wide) in paragraph at lines 254--255
 []\OT1/cmr/m/n/12 Vergleich zwi-schen Re-el-ler und Bin[]arer Ko-die-rung (1-Pu
 nkt- und 2-Punkt-Rekombination) 
  []
 
 
-Overfull \hbox (19.381pt too wide) in paragraph at lines 263--264
+Overfull \hbox (19.381pt too wide) in paragraph at lines 260--261
 \OT1/cmr/m/n/12 Ko-die-rungs-ar-ten bes-se-re Fit-ness-wer-te brin-gen. In-ner-
 halb der Bin[]arkodierung bringt zus[]atzlich
  []
 
-<../abb1_n20_stable.jpeg, id=16, 780.516pt x 446.3877pt>
+<../abb1_n20_stable.jpeg, id=16, 742.2129pt x 395.076pt>
 File: ../abb1_n20_stable.jpeg Graphic file (type jpg)
 
 <use ../abb1_n20_stable.jpeg>
-Package pdftex.def Info: ../abb1_n20_stable.jpeg used on input line 267.
-(pdftex.def)             Requested size: 318.66948pt x 182.25046pt.
+Package pdftex.def Info: ../abb1_n20_stable.jpeg used on input line 264.
+(pdftex.def)             Requested size: 318.66948pt x 169.62617pt.
  [3]
-<../abb2_stable.jpeg, id=20, 780.516pt x 446.3877pt>
+<../abb2_stable.jpeg, id=20, 742.2129pt x 395.076pt>
 File: ../abb2_stable.jpeg Graphic file (type jpg)
  <use ../abb2_stable.jpeg>
-Package pdftex.def Info: ../abb2_stable.jpeg used on input line 278.
-(pdftex.def)             Requested size: 204.85846pt x 117.1615pt.
+Package pdftex.def Info: ../abb2_stable.jpeg used on input line 275.
+(pdftex.def)             Requested size: 204.85846pt x 109.04109pt.
 
-<../abb2_growing.jpeg, id=21, 780.516pt x 446.3877pt>
+<../abb2_growing.jpeg, id=21, 742.2129pt x 395.076pt>
 File: ../abb2_growing.jpeg Graphic file (type jpg)
 
 <use ../abb2_growing.jpeg>
-Package pdftex.def Info: ../abb2_growing.jpeg used on input line 282.
-(pdftex.def)             Requested size: 204.85846pt x 117.1615pt.
+Package pdftex.def Info: ../abb2_growing.jpeg used on input line 279.
+(pdftex.def)             Requested size: 204.85846pt x 109.04109pt.
 
-Overfull \hbox (3.19975pt too wide) in paragraph at lines 287--288
+Overfull \hbox (3.19975pt too wide) in paragraph at lines 284--285
 []\OT1/cmr/m/n/12 Mit stei-gen-der An-zahl der Ge-ne wird das glo-ba-le Mi-ni-m
 um im-mer verz[]ogerter ann[]ahernd
  []
 
-<../abb3_different_n.jpeg, id=22, 780.516pt x 446.3877pt>
+<../abb3_different_n.jpeg, id=22, 742.2129pt x 395.076pt>
 File: ../abb3_different_n.jpeg Graphic file (type jpg)
 
 <use ../abb3_different_n.jpeg>
-Package pdftex.def Info: ../abb3_different_n.jpeg used on input line 294.
-(pdftex.def)             Requested size: 318.66948pt x 182.25046pt.
+Package pdftex.def Info: ../abb3_different_n.jpeg used on input line 291.
+(pdftex.def)             Requested size: 318.66948pt x 169.62617pt.
 
-Underfull \hbox (badness 3449) in paragraph at lines 296--296
+Underfull \hbox (badness 3449) in paragraph at lines 293--293
 [][][]|\OT1/cmr/m/n/12 Abb.3: Ver-gleich ver-schie-de-ne An-zahl an Ge-nen (Bin
 []arkodierung mit 1-Punkt-
  []
 
 [4 <../abb1_n20_stable.jpeg> <../abb2_stable.jpeg> <../abb2_growing.jpeg>]
-<../abb4_streuung.jpeg, id=26, 780.516pt x 446.3877pt>
+<../abb4_streuung.jpeg, id=26, 742.2129pt x 395.076pt>
 File: ../abb4_streuung.jpeg Graphic file (type jpg)
 
 <use ../abb4_streuung.jpeg>
-Package pdftex.def Info: ../abb4_streuung.jpeg used on input line 303.
-(pdftex.def)             Requested size: 318.66948pt x 182.25046pt.
+Package pdftex.def Info: ../abb4_streuung.jpeg used on input line 300.
+(pdftex.def)             Requested size: 318.66948pt x 169.62617pt.
  [5 <../abb3_different_n.jpeg> <../abb4_streuung.jpeg>] (./paper.aux)
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1321,7 +1331,7 @@ Package logreq Info: Writing requests to 'paper.run.xml'.
 Here is how much of TeX's memory you used:
  18147 strings out of 493029
  295942 string characters out of 6136233
- 856257 words of memory out of 5000000
+ 855257 words of memory out of 5000000
  21364 multiletter control sequences out of 15000+600000
  8551 words of font info for 31 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
@@ -1333,7 +1343,7 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmsy10.pfb>
-Output written on paper.pdf (5 pages, 1852839 bytes).
+Output written on paper.pdf (5 pages, 1742950 bytes).
 PDF statistics:
  53 PDF objects out of 1000 (max. 8388607)
  33 compressed objects within 1 object stream
