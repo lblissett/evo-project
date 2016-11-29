@@ -9,7 +9,7 @@ library(ggplot2)
 library(grid)
 library(svglite)
 limitsX = c(0, 500)
-limitsY = c(0, 75)
+limitsY = c(0, 85)
 stepsX = c(0,100,200,300,400,500)
 stepsY = c(0,10,20,30,40,50,60,70)
 
@@ -36,21 +36,25 @@ mydata50s = read.csv("mean100_n50_isGrowing_false.csv", header=TRUE)
 mydata50g = read.csv("mean100_n50_isGrowing_true.csv", header=TRUE)
 
 sg50s <- ggplot(data=mydata50s, aes(x=mydata50s$Zyklus, color=Kodierung)) +
-  geom_line(aes(y =mydata50s$bester.Fitnesswert.Real, col="Reelle Werte"), size=2) +
-  geom_line(aes(y=mydata50s$Binaer1P, col="Binär1P"), size=2)+
-  geom_line(aes(y=mydata50s$Binaer2P, col = "Binär2P"), size=2) +
+  geom_line(aes(y =mydata50s$bester.Fitnesswert.Real, col="Reelle Werte",linetype="stabil"), size=2) +
+  geom_line(aes(y=mydata50s$Binaer1P, col="Binär1P", linetype="stabil"), size=2) +
+  geom_line(aes(y=mydata50s$Binaer2P, col = "Binär2P",linetype="stabil"), size=2) +
+  geom_line(aes(y =mydata50g$bester.Fitnesswert.Real, col="Reelle Werte", linetype="wachsend"), size=2) +
+  geom_line(aes(y=mydata50g$Binaer1P, col="Binär1P",linetype="wachsend"), size=2)+
+  geom_line(aes(y=mydata50g$Binaer2P, col = "Binär2P",linetype="wachsend"),size=2) +
   scale_x_continuous(limits=limitsX, breaks=stepsX) + scale_y_continuous(limits=limitsY, breaks=stepsY) +
-  scale_colour_discrete(name = "Kodierung", breaks=c("Reelle Werte","Binär1P","Binär2P"))
+  scale_colour_discrete(name = "Kodierung", breaks=c("Reelle Werte","Binär1P","Binär2P"))+
+  scale_linetype_manual(name="Population",values=c("stabil"="twodash", "wachsend"="solid"))+
+  guides(linetype=guide_legend(keywidth = 3, keyheight = 1))
+
 
 sg50s + theme() + theme(plot.title = element_text(size = 20, hjust = 0.5),
                         axis.title.x =element_text(size = rel(1.5)), axis.text.x =element_text(size = rel(1.5)),
                         axis.title.y = element_text(size = rel(1.5), angle = 90), axis.text.y =element_text(size = rel(1.5)),
                         panel.grid.major = element_line(color = "black",
-                                                        linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,
-                                                                                                                                                                             face="bold")) + labs(size=20, x = "Zyklus",y =
-                                                                                                                                                                                                    "Fitnesswert", title = "Stabile Population (n = 50)")
+                        linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,face="bold")) + labs(size=20, x = "Zyklus",y ="Fitnesswert", title = "Stabile Population (n = 50)")
 
-ggsave("../abb2_stable.svg")
+#ggsave("../abb2_stable.svg")
 
 sg50g <- ggplot(data=mydata50g, aes(x=mydata50g$Zyklus, color=Kodierung)) +
   geom_line(aes(y =mydata50g$bester.Fitnesswert.Real, col="Reelle Werte"), size=2) +
@@ -63,10 +67,9 @@ sg50g + theme() + theme(plot.title = element_text(size = 20, hjust = 0.5),
                         axis.title.x =element_text(size = rel(1.5)), axis.text.x =element_text(size = rel(1.5)),
                         axis.title.y = element_text(size = rel(1.5), angle = 90), axis.text.y =element_text(size = rel(1.5)),
                         panel.grid.major = element_line(color = "black",
-                                                        linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16,
-                                                                                                                                                                             face="bold")) + labs(size=20, x = "Zyklus",y ="Fitnesswert", title = "Wachsende Population (n = 50)")
+                        linetype= "dotted"), legend.text = element_text(size = 20), legend.position=c(.80, .90), legend.title = element_text(size=16, face="bold")) + labs(size=20, x = "Zyklus",y ="Fitnesswert", title = "Wachsende Population (n = 50)")
 
-ggsave("../abb2_growing.svg")
+#ggsave("../abb2_growing.svg")
 
 # Abbildung Vergleich n
 mydata5n = read.csv("mean100_n5_isGrowing_true.csv", header=TRUE)
