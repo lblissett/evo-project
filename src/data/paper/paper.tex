@@ -196,7 +196,7 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 	\item Elternselektion
 		\begin{itemize}
 		\item Anzahl Elternpaar = e mit zufälliger Selektion
-		\item e wachsend bzw. stabil
+		\item e wachsend bzw. stabil (wenn wachsend, dann e = e + 1 pro Zyklus)
 	\end{itemize}
 	\item Rekombination
 		\begin{itemize}
@@ -214,8 +214,7 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 	\item Umweltselektion
 		\begin{itemize}
 		\item aus Eltern + Kindern soll neue Population gewählt werden 
-		\item zuerst die besten A Individuen nehmen (deterministische Selektion) Gesamtpopulation soll wachsen (A wächst linear von Generation zu Generation um +1 an)
-		\item dann aus Rest zufällig B Individuen auswählen
+		\item die besten a Individuen nehmen (deterministische Selektion) \item wenn Gesamtpopulation wachsen soll, dann a = a + 1 pro Zyklus
 	\end{itemize}
 	\item gehe zu Punkt 2 bis Abbruchkriterium K erreicht
 \end{enumerate}
@@ -228,9 +227,9 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 		$Parameter$ & $Wert$ \\
 		\hline
 		\hline
-		Größe der Startpopulation X Individuen& 10  \\
+		Größe der Startpopulation X Individuen& 100  \\
 				\hline
-		Anzahl der Elternpaare e & 10 (+1 pro Zyklus)  \\
+		Anzahl der Elternpaare e & 10 (+1 pro Zyklus, wenn wachsend)  \\
 				\hline
 		Rekombinationswahrscheinlichkeit& 0.9 \\
 				\hline
@@ -238,11 +237,9 @@ Für die Umsetzung wird folgender Algorithmus verwendet:
 				\hline
 		reeller Mutationswert W& +5.0  \\
 				\hline
-		Auswahl bester Individuen a& 10 (+1 pro Zyklus) \\
+		Auswahl bester Individuen a& 10 (+1 pro Zyklus, wenn wachsend) \\
 		\hline
-		Auswahl zufällige Umweltselektion B& 3 \\
-		\hline
-		Abbruchkriterium K Zyklen & 1500\\
+		Abbruchkriterium K Zyklen & 500\\
 		\hline
 	\end{tabularx}
 \end{table}
