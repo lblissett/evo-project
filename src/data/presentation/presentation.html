@@ -5,6 +5,10 @@
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/black.css">
 	<meta charset="UTF-8">
+
+        <style>
+        </style>
+
     </head>
     <body>
         <div class="reveal">
@@ -90,7 +94,6 @@
 						<h2>Slide down</h2>
 					</section>
 
-
 				</section> 
 				 
 				 <section  data-background="background.jpg">
@@ -105,15 +108,13 @@
 
                          <h2>Parameter</h2>
                          <ul>
-							 <li>Größe der Startpopulation: 10</li>
+							 <li>Größe der Startpopulation: 100</li>
 							 <li>Anzahl der Elternpaar e: 10 (+1 pro Zyklus)</li>
 							 <li>Rekombinationswahrscheinlichkeit: 0.9</li>
 							 <li>Mutationswahrscheinlichkeit: 0.1</li>
 							 <li>reeller Mutationswert: +5.0</li>
 							 <li>Auswahl bester Individuen: 10 (+1 pro Zyklus)</li>
-							 <li>Auswahl zufällige Umweltselektion: 3</li>
 							 <li>Abbruchkriterium: 500</li>
-
 						 </ul>
                      </section>
 				 </section>
@@ -123,17 +124,36 @@
 						<h2>4. Ergebnisse</h2>
 						
 						<p>
-							TEXT TEXT TEXT
+						Mittelwerte von 100 Versuchen
 						</p>
 					</section>
 
 					<section>
 						<img src="../abb1_n20_stable.svg">
 						<p style="font-size:1em;">
-							Vergleich Kodierungsarten (n=20, stabile Population)
+							Kodierungen im Vergleich bei n=20 (stabile Population)
 						</p>
 
 					</section>
+
+                    <section>
+                        <p style="font-size:1em;">
+                            Stabile vs. wachsende Population
+                        </p>
+                        <div align="middle" style="float:top;width:100%">
+                            <div style="width:60%;float:top;">
+                                <img src="../abb2_stable.svg" style="float:top">
+                            </div>
+                        </div>
+
+                        <div align="middle" style="float:bottom;width:100%">
+                            <div style="width:60%;float:bottom">
+                                <img src="../abb2_growing.svg" style="float:bottom;">
+                            </div>
+
+                        </div>
+
+                    </section>
 
 					<section>
 						<img src="../abb3_different_n.svg">
@@ -150,6 +170,76 @@
                             Streuung der Koderiung (n=50, wachsend)
                         </p>
 
+                    </section>
+
+                    <section>
+                        <h4>Bester Fitnesswert nach 500 Zyklen (stabil)</h4>
+                        <table style="color:white";>
+                            <thead>
+                            <tr>
+                                <th>n</th>
+                                <th>1-Punkt</th>
+                                <th>2-Punkt</th>
+                                <th>Reelle Kodierung</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>5</td>
+                                <td>0.086</td>
+                                <td>0.132</td>
+                                <td>5.854</td>
+
+                            </tr>
+                            <tr>
+                                <td>20</td>
+                                <td>0.789</td>
+                                <td>1.481</td>
+                                <td>18.555</td>
+
+                            </tr>
+                            <tr>
+                                <td>50</td>
+                                <td>6.150</td>
+                                <td>11.582</td>
+                                <td>22.139</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Bester Fitnesswert nach 500 Zyklen (wachsend) </h4>
+                        <table style="color:white";>
+                            <thead>
+                            <tr>
+                                <th>n</th>
+                                <th>1-Punkt</th>
+                                <th>2-Punkt</th>
+                                <th>Reelle Kodierung</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>5</td>
+                                <td>0.003</td>
+                                <td>0.003</td>
+                                <td>5.682</td>
+
+                            </tr>
+                            <tr>
+                                <td>20</td>
+                                <td>0.010</td>
+                                <td>0.010</td>
+                                <td>15.431</td>
+
+                            </tr>
+                            <tr>
+                                <td>50</td>
+                                <td>1.085</td>
+                                <td>1.997</td>
+                                <td>20.576</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </section>
 
 					
