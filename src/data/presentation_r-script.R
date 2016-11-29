@@ -110,12 +110,12 @@ sg50s + theme() + theme(
   panel.grid.major = element_line(color = "black",
                                   linetype = "dotted"),
   legend.text = element_text(size = 20),
-  legend.position = c(.80, .90),
+  legend.position = c(.80, .83),
   legend.title = element_text(size = 16, face = "bold")
 ) + labs(size = 24,
          x = "Zyklus",
          y = "Fitnesswert",
-         title = "Stabile Population (n = 50)")
+         title = "Stabile vs wachsende Population (n = 50)")
 
 ggsave("../abb2_stable.svg")
 
